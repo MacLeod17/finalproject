@@ -8,7 +8,10 @@ import java.time.LocalDate;
 public class MainMenuUI {
     public enum MenuItem {
         EXIT,
-
+        PLAY_GAME,
+        CREATE_CHARACTER,
+        VIEW_CHARACTER,
+        SEARCH_CHARACTERS
     }
 
     private BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
@@ -17,23 +20,23 @@ public class MainMenuUI {
 
     }
 
-//    public MenuItem promptMenuSelection() throws IOException {
-//        String mainMenuString = buildMainMenuDisplay();
-//        displayMessage(mainMenuString);
-//        int sel = readInt(0, 4);
-//        return MenuItem.values()[sel];
-//    }
+    public MenuItem promptMenuSelection() throws IOException {
+        String mainMenuString = buildMainMenuDisplay();
+        displayMessage(mainMenuString);
+        int sel = readInt(0, 4);
+        return MenuItem.values()[sel];
+    }
 
-//    private String buildMainMenuDisplay() {
-//        return String.format("Main Menu\r\n" +
-//                        " 1 - %s\r\n" +
-//                        " 2 - %s\r\n" +
-//                        " 3 - %s\r\n" +
-//                        " 4 - %s\r\n" +
-//                        " 0 - %s\r\n",
-//                MenuItem.CREATE_ENTRY, MenuItem.VIEW_ENTRY,
-//                MenuItem.SEARCH_ENTRIES, MenuItem.EDIT_ENTRY, MenuItem.EXIT);
-//    }
+    private String buildMainMenuDisplay() {
+        return String.format("Main Menu\r\n" +
+                        " 1 - %s\r\n" +
+                        " 2 - %s\r\n" +
+                        " 3 - %s\r\n" +
+                        " 4 - %s\r\n" +
+                        " 0 - %s\r\n",
+                MenuItem.PLAY_GAME, MenuItem.CREATE_CHARACTER,
+                MenuItem.VIEW_CHARACTER, MenuItem.SEARCH_CHARACTERS, MenuItem.EXIT);
+    }
 
     public int readInt(int min, int max) throws IOException {
         while(true) {
