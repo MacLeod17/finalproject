@@ -1,5 +1,4 @@
 package edu.neumont.csc150.c.finalproject.model;
 
-public class Character {
-
+public class Terrain {
 }
