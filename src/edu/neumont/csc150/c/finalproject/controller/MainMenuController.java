@@ -46,7 +46,7 @@ public class MainMenuController {
         new GameController().run();
     }
 
-    private void createCharacter() {
+    private void createCharacter() throws IOException {
         new QuestionController().run();
     }
 

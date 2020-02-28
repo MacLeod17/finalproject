@@ -9,8 +9,8 @@ public abstract class Character {
     private String hitType;
     private int damageMod;
     private int hitBonus;
-    private int dice;
-    private int sides;
+    private int attackDice;
+    private int attackSides;
     private final int MIN_CURRENT_HEALTH = 0;
 
 
@@ -77,26 +77,26 @@ public abstract class Character {
         this.hitBonus = hitBonus;
     }
 
-    public int getDice() {
-        return dice;
+    public int getAttackDice() {
+        return attackDice;
     }
 
-    public void setDice(int dice) {
-        if (dice < 1) {
+    public void setAttackDice(int attackDice) {
+        if (attackDice < 1) {
             throw new IllegalArgumentException();
         }
-        this.dice = dice;
+        this.attackDice = attackDice;
     }
 
-    public int getSides() {
-        return sides;
+    public int getAttackSides() {
+        return attackSides;
     }
 
-    public void setSides(int sides) {
-        if (sides < 1) {
+    public void setAttackSides(int attackSides) {
+        if (attackSides < 1) {
             throw new IllegalArgumentException();
         }
-        this.sides = sides;
+        this.attackSides = attackSides;
     }
 
     public int roll(int dice, int sides) {
@@ -109,16 +109,16 @@ public abstract class Character {
         return roll;
     }
 
-    public int attack(int enemyArmorClass, int dice, int sides, int hitBonus) {
+    public int attack(int enemyArmorClass, int hitBonus) {
         int rawRoll = roll(1, 20) + 1; //Simulates the d20 without any bonuses
         int roll = rawRoll + hitBonus; //Simulates d20 after character's bonus to hit
         if (rawRoll == 20) {
             setHitType("Natch 20!");
-            return dice * sides;
+            return attackDice * attackSides;
         }
         else if (roll >= enemyArmorClass) {
             setHitType("Hit!");
-            return roll(dice, sides);
+            return roll(attackDice, attackSides);
         }
         else {
             setHitType("Miss!");
