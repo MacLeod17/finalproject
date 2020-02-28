@@ -1,4 +1,10 @@
 package edu.neumont.csc150.c.finalproject.view;
 
-public class GameUI {
+import java.io.IOException;
+
+public class GameUI extends GeneralUI {
+
+    public GameUI() {
+
+    }
 }

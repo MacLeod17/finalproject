@@ -11,7 +11,7 @@ public class Player {
     private int battlesWon;
     private int gold;
     private int potionsLeft;
-    private int armorLevel;
+    private int armorClass;
     private int winsNeeded;
     private int winsToNextLevel;
     private int daysActive;
@@ -34,7 +34,7 @@ public class Player {
         battlesWon = 0;
         gold = 0;
         potionsLeft = 0;
-        armorLevel = 0;
+        armorClass = 0;
         winsNeeded = 5;
         winsToNextLevel = 5;
         gender = "Other";
@@ -243,26 +243,26 @@ public class Player {
         this.potionsLeft = 0;
     }
 
-    public int getArmorLevel() {
-        return this.armorLevel;
+    public int getArmorClass() {
+        return this.armorClass;
     }
 
-    public void raiseArmorLevel(int cost) {
-        if(armorLevel == 0) {
+    public void raiseArmorClass(int cost) {
+        if(armorClass == 0) {
             removeGold(cost);
-            this.armorLevel += 10;
+            this.armorClass += 10;
         }
-        else if (armorLevel == 30) {
+        else if (armorClass == 30) {
             throw new ArithmeticException("Armor level cannot exceed 30");
         }
         else {
             removeGold(cost);
-            this.armorLevel += 5;
+            this.armorClass += 5;
         }
     }
 
-    public void resetArmorLevel() {
-        this.armorLevel = 0;
+    public void resetArmorClass() {
+        this.armorClass = 0;
     }
 
     public int getDaysActive() {
@@ -304,7 +304,7 @@ public class Player {
     }
 
     public void resetAll() {
-        resetArmorLevel();
+        resetArmorClass();
         resetBattlesWon();
         resetCharClass();
         resetCurrentHealth();

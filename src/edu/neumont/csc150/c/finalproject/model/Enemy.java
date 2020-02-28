@@ -2,7 +2,7 @@ package edu.neumont.csc150.c.finalproject.model;
 
 public class Enemy {
     private String name;
-    private int maxHealth;
+    private int totalHealth;
     private int currentHealth;
     private int damage;
     private int gold;
@@ -28,12 +28,12 @@ public class Enemy {
         this.name = name;
     }
 
-    public int getMaxHealth() {
-        return maxHealth;
+    public int getTotalHealth() {
+        return totalHealth;
     }
 
-    public void setMaxHealth(int maxHealth) {
-        this.maxHealth = maxHealth;
+    public void setTotalHealth(int totalHealth) {
+        this.totalHealth = totalHealth;
     }
 
     public int getCurrentHealth() {
@@ -48,7 +48,7 @@ public class Enemy {
     }
 
     public void resetCurrentHealth() {
-        this.currentHealth = maxHealth;
+        this.currentHealth = totalHealth;
     }
 
     public int getDamage() {
@@ -73,5 +73,14 @@ public class Enemy {
 
     public void setDespicableAct(boolean despicableAct) {
         this.despicableAct = despicableAct;
+    }
+
+    public boolean checkForDead() {
+        if (this.currentHealth == 0) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 }

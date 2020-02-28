@@ -42,6 +42,7 @@ public class MainMenuController {
     }
 
     private void playGame() {
+        //TODO Implement Character search
         new GameController().run();
     }
 
@@ -54,6 +55,6 @@ public class MainMenuController {
     }
 
     private void searchCharacters() {
-
+        //TODO Implement search by character level-level range
     }
 }

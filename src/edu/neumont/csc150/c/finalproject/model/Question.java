@@ -2,10 +2,10 @@ package edu.neumont.csc150.c.finalproject.model;
 
 public class Question {
     private String question;
-    private String answerA;
-    private String answerB;
-    private String answerC;
-    private String answerD;
+    private String answerA; //Fighter Answer
+    private String answerB; //Wizard Answer
+    private String answerC; //Cleric Answer
+    private String answerD; //Thief Answer
 
     public Question() {
 
