@@ -54,7 +54,7 @@ public class QuestionController {
         tieBreaker.add(wizardAnswerCounter);
         tieBreaker.add(clericAnswerCounter);
         tieBreaker.add(thiefAnswerCounter);
-        //TODO Finish Tie Breaker sequence
+        //TODO Finish Tie Breaker sequence; does not work rn
         for (int i=0; i < tieBreaker.size(); i++) {
             if (tieBreaker.get(i) < fighterAnswerCounter || tieBreaker.get(i) < wizardAnswerCounter || tieBreaker.get(i) < clericAnswerCounter ||
                     tieBreaker.get(i) < thiefAnswerCounter) {

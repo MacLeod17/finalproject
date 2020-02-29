@@ -7,8 +7,6 @@ import java.io.IOException;
 
 public class Launcher {
 
-    private MainMenuUI ui = new MainMenuUI();
-
     public static void main(String[] args) throws IOException {
         new MainMenuController().run();
     }
