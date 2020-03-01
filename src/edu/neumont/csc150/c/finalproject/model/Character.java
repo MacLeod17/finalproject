@@ -18,6 +18,10 @@ public abstract class Character {
 
     private Random gen = new Random();
 
+    public Character() {
+
+    }
+
     public String getName() {
         return this.name;
     }
@@ -33,7 +37,8 @@ public abstract class Character {
         return this.totalHealth;
     }
 
-    public void setTotalHealth(int hp) { //Used for reloading a character for a new session
+    /** Used for reloading a character for a new session */
+    public void setTotalHealth(int hp) {
         this.totalHealth = hp;
     }
 
@@ -46,7 +51,8 @@ public abstract class Character {
         return this.currentHealth;
     }
 
-    public void setCurrentHealth(int currentHealth) { //Used *ONLY* for reloading characters, possibly special attack types
+    /** Used *ONLY* for reloading characters, possibly special attack types */
+    public void setCurrentHealth(int currentHealth) {
         this.currentHealth = currentHealth;
     }
 
@@ -130,21 +136,22 @@ public abstract class Character {
         return roll;
     }
 
-    public int attack(int enemyArmorClass) { //Used for normal attacks
+    /** Used for normal attacks */
+    public int attack(int enemyArmorClass) {
         return attack(enemyArmorClass, 0, 1);
     }
 
-    //Damage Multiplier is for special attack types like Thief's sneak attack (if special attacks are ever implemented)
+    /** Damage Multiplier is for special attack types like Thief's sneak attack (if special attacks are ever implemented) */
     public int attack(int enemyArmorClass, int specialHitBonus, int damageMultiplier) {
-        int rawRoll = roll(1, 20); //Simulates the d20 without any bonuses
-        int roll = rawRoll + this.hitBonus + specialHitBonus; //Simulates d20 after character's bonus to hit
-        /* Minimum 1 in 20 chance of hitting or missing */
+        int rawRoll = roll(1, 20); /** Simulates the d20 roll without any bonuses */
+        int roll = rawRoll + this.hitBonus + specialHitBonus; /** Simulates d20 after character's bonus to hit */
+        /** Minimum 1 in 20 chance of hitting or missing */
         if (rawRoll == 1) {
-            setHitType("Natch 1!");
+            setHitType("Natch 1! Critical Miss!");
             return 0;
         }
         else if (rawRoll == 20) {
-            setHitType("Natch 20!");
+            setHitType("Natch 20! Critical Hit!");
             return (this.attackDice * this.attackSides) * damageMultiplier;
         }
         else if (roll >= enemyArmorClass) {

@@ -56,8 +56,8 @@ public class Enemies {
 //        enemies.add(new Enemy("Kraken", 65, 40, false));
     }
 
-    public void addCreature(String name, int healthDice, int healthSides, int armorClass, int damageMod, int attackDice, int attackSides, int gold, boolean despicableAct) {
-        enemies.add(new Enemy(name, healthDice, healthSides, armorClass, damageMod, attackDice, attackSides, gold, despicableAct));
+    public void addCreature(String name, int healthDice, int healthSides, int armorClass, int damageMod, int attackDice, int attackSides, int gold, int percentChanceToFollowPlayer, boolean despicableAct) {
+        enemies.add(new Enemy(name, healthDice, healthSides, armorClass, damageMod, attackDice, attackSides, gold, percentChanceToFollowPlayer, despicableAct));
     }
 
     public Enemy getCreature(int index) {

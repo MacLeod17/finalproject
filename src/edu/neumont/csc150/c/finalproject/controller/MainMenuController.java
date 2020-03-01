@@ -1,9 +1,12 @@
 package edu.neumont.csc150.c.finalproject.controller;
 
+import edu.neumont.csc150.c.finalproject.model.Player;
 import edu.neumont.csc150.c.finalproject.view.MainMenuUI;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainMenuController {
 
@@ -47,18 +50,82 @@ public class MainMenuController {
     }
 
     private void createCharacter() throws IOException {
-        new QuestionController().run();
+        Player player = new QuestionController().run();
+        saveCharacter(String.format("%s_%d", player.getName(), player.getLevel()), player);
     }
 
-    private void saveCharacter() {
-        //TODO Implement character saving after createCharacter()
+    private void saveCharacter(String fileName, Player player) throws FileNotFoundException {
+        File file = new File(characterFolder, fileName);
+        PrintStream outFile = new PrintStream(file);
+        try {
+            outFile.print(player.serialize());
+        }
+        finally {
+            outFile.close();
+        }
     }
 
-    private void viewCharacter() {
-        //TODO Implement viewing a specific character by name
+    /** View all of a specific Player's properties except attackDice, attackSides, winsNeeded, and winsToNextLevel */
+    private void viewCharacter() throws IOException {
+        String name = ui.readString("Enter your character's name", 2);
+        ui.displayMessage("Enter your character's level");
+        int level = ui.readInt(1, 100);
+        String fileName = String.format("%s_%d", name, level);
+        File folder = new File(characterFolder);
+        File[] files = folder.listFiles();
+        for (File file : files) {
+            if (fileName.equals(file.getName())) {
+                BufferedReader inFile = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
+                Player player = new Player();
+                player.deserialize(inFile.readLine().trim());
+                ui.displayMessage(player.toString());
+                return;
+            }
+        }
+        ui.displayMessage("There is no character with the name and level entered");
     }
 
-    private void searchCharacters() {
-        //TODO Implement search for character by level-level range
+    /** Search by range of levels; shows level, name, charClass, and gender of search results */
+    private void searchCharacters() throws IOException {
+        ui.displayMessage("Enter the min level");
+        int min = ui.readInt(0, 100);
+        ui.displayMessage("Enter max level");
+        int max = ui.readInt(min, 100);
+        List<Player> searchResults = new ArrayList<>();
+
+        File folder = new File(characterFolder);
+        File[] files = folder.listFiles();
+        for (File file : files) {
+            String fileName = file.getName();
+            String[] fileNamePieces = fileName.split("_");
+            int level = Integer.parseInt(fileNamePieces[1]);
+            if (level <= max && level >= min) {
+                Player player = loadPlayer(file.getAbsolutePath());
+                searchResults.add(player);
+            }
+        }
+        for (Player searchResult : searchResults) {
+            ui.displayMessage(searchResult.toSearchString());
+        }
+    }
+
+    private Player loadPlayer(String userFileName) throws IOException {
+        BufferedReader inFile = new BufferedReader(new InputStreamReader(new FileInputStream(userFileName)));
+        try {
+            String content = "";
+            while (inFile.ready()) {
+                content += inFile.readLine() + System.lineSeparator();
+
+            }
+            if (!content.trim().isEmpty()) {
+                Player p = new Player();
+                p.deserialize(content);
+                return p;
+            }
+        }
+        finally {
+            inFile.close();
+        }
+        return null;
     }
 }

@@ -45,10 +45,9 @@ public class QuestionController {
 //        ui.displayMessage(String.format("Wizard: %d", wizardAnswerCounter));
 //        ui.displayMessage(String.format("Cleric: %d", clericAnswerCounter));
 //        ui.displayMessage(String.format("Thief: %d", thiefAnswerCounter));
-//        ui.displayMessage(String.format("Your Class: %s", charClass));
-//        Player player = new Player();
-//        return player;
-        return null;
+        ui.displayMessage(String.format("Your Class: %s", charClass));
+
+        return createPlayer(charClass);
     }
 
     private String determineCharacterClass() {
@@ -59,7 +58,6 @@ public class QuestionController {
         counters.add(clericAnswerCounter);
         counters.add(thiefAnswerCounter);
         List<Integer> tieBreaker = new ArrayList<>();
-        //TODO Finish Tie Breaker sequence; does not work rn
         for (int i=0; i < counters.size(); i++) {
             if (counters.get(i) < fighterAnswerCounter || counters.get(i) < wizardAnswerCounter || counters.get(i) < clericAnswerCounter ||
                     counters.get(i) < thiefAnswerCounter) {
@@ -69,7 +67,7 @@ public class QuestionController {
                 tieBreaker.add(i, counters.get(i));
             }
         }
-        int clazz = gen.nextInt(counters.size()); //If there's 3-way tie, range is 0-2
+        int clazz = gen.nextInt(counters.size());
         while (tieBreaker.get(clazz) == null) {
             clazz = gen.nextInt(counters.size());
         }
@@ -87,6 +85,23 @@ public class QuestionController {
         }
         else {
             throw new RuntimeException();
+        }
+    }
+
+    private Player createPlayer(String charClass) throws IOException {
+        String name = ui.readString("Enter your character's name", 2);
+        String gender = ui.readString("Enter your character's gender, or press enter to use default", 0);
+        switch (charClass) {
+            case "Fighter":
+                return new Player(name, 12, 13, 2, 1, 2, 8, charClass, gender);
+            case "Wizard":
+                return new Player(name, 6, 10, 0, 0, 1, 8, charClass, gender);
+            case "Cleric":
+                return new Player(name, 10, 12, 0, 1, 1, 10, charClass, gender);
+            case "Thief":
+                return new Player(name, 8, 10, 1, 0, 2, 6, charClass, gender);
+            default:
+                throw new RuntimeException();
         }
     }
 }

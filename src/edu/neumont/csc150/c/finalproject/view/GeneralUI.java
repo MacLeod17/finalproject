@@ -29,9 +29,9 @@ public abstract class GeneralUI {
         }
     }
 
-    public String readString(int minLength) throws IOException {
+    public String readString(String prompt, int minLength) throws IOException {
         while (true) {
-            displayMessage("Ready to receive your entry. To submit, press enter");
+            displayMessage(prompt);
             String input = in.readLine();
             if (input.length() < minLength) {
                 displayError(String.format("Entry content must be at least %d characters long", minLength));
