@@ -49,29 +49,36 @@ public class QuestionController {
 
     private String determineCharacterClass() {
         Random gen = new Random();
+        List<Integer> counters = new ArrayList<>();
+        counters.add(fighterAnswerCounter);
+        counters.add(wizardAnswerCounter);
+        counters.add(clericAnswerCounter);
+        counters.add(thiefAnswerCounter);
         List<Integer> tieBreaker = new ArrayList<>();
-        tieBreaker.add(fighterAnswerCounter);
-        tieBreaker.add(wizardAnswerCounter);
-        tieBreaker.add(clericAnswerCounter);
-        tieBreaker.add(thiefAnswerCounter);
         //TODO Finish Tie Breaker sequence; does not work rn
-        for (int i=0; i < tieBreaker.size(); i++) {
-            if (tieBreaker.get(i) < fighterAnswerCounter || tieBreaker.get(i) < wizardAnswerCounter || tieBreaker.get(i) < clericAnswerCounter ||
-                    tieBreaker.get(i) < thiefAnswerCounter) {
-                tieBreaker.remove(tieBreaker.get(i));
+        for (int i=0; i < counters.size(); i++) {
+            if (counters.get(i) < fighterAnswerCounter || counters.get(i) < wizardAnswerCounter || counters.get(i) < clericAnswerCounter ||
+                    counters.get(i) < thiefAnswerCounter) {
+                tieBreaker.add(i, null);
+            }
+            else {
+                tieBreaker.add(i, counters.get(i));
             }
         }
-        int clazz = gen.nextInt(tieBreaker.size()); //If there's 3-way tie, range is 0-2
-        if (tieBreaker.get(clazz).equals(fighterAnswerCounter)) {
+        int clazz = gen.nextInt(counters.size()); //If there's 3-way tie, range is 0-2
+        while (tieBreaker.get(clazz) == null) {
+            clazz = gen.nextInt(counters.size());
+        }
+        if (tieBreaker.get(clazz) == counters.get(0)) {
             return "Fighter";
         }
-        else if (tieBreaker.get(clazz).equals(wizardAnswerCounter)) {
+        else if (tieBreaker.get(clazz) == counters.get(1)) {
             return "Wizard";
         }
-        else if (tieBreaker.get(clazz).equals(clericAnswerCounter)) {
+        else if (tieBreaker.get(clazz) == counters.get(2)) {
             return "Cleric";
         }
-        else if (tieBreaker.get(clazz).equals(thiefAnswerCounter)) {
+        else if (tieBreaker.get(clazz) == counters.get(3)) {
             return "Thief";
         }
         else {
