@@ -1,66 +1,31 @@
 package edu.neumont.csc150.c.finalproject.model;
 
-public class Enemy {
-    private String name;
-    private int totalHealth;
-    private int currentHealth;
-    private int damage;
+public class Enemy extends Character {
     private int gold;
     private boolean despicableAct;
-    private final int MIN_CURRENT_HEALTH = 0;
 
     public Enemy() {
 
     }
 
-    public Enemy(String name, int damage, int gold, boolean despicableAct) {
+    public Enemy(String name, int healthDice, int healthSides, int armorClass, int damageMod, int attackDice, int attackSides, int gold, boolean despicableAct) {
         this.setName(name);
-        this.setDamage(damage);
+        this.setTotalHealth(this.roll(healthDice, healthSides));
+        /* Two different enemies of the same type can have different total health
+        (Some individuals will be tougher than others of the same type) */
+        this.setArmorClass(armorClass);
+        this.setDamageMod(damageMod);
+        this.setHitBonus(healthDice - 1);
+        //Basically sets hit bonus equal to number of Hit Dice (Monster equivalent of level); Bigger Bads attack better
+        this.setAttackDice(attackDice);
+        this.setAttackSides(attackSides);
+
         this.setGold(gold);
         this.setDespicableAct(despicableAct);
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getTotalHealth() {
-        return totalHealth;
-    }
-
-    public void setTotalHealth(int totalHealth) {
-        this.totalHealth = totalHealth;
-    }
-
-    public int getCurrentHealth() {
-        return this.currentHealth;
-    }
-
-    public void takeDamage(int damage) {
-        this.currentHealth -= damage;
-        if(this.currentHealth < MIN_CURRENT_HEALTH) {
-            this.currentHealth = MIN_CURRENT_HEALTH;
-        }
-    }
-
-    public void resetCurrentHealth() {
-        this.currentHealth = totalHealth;
-    }
-
-    public int getDamage() {
-        return damage;
-    }
-
-    public void setDamage(int damage) {
-        this.damage = damage;
-    }
-
     public int getGold() {
-        return gold;
+        return this.gold;
     }
 
     public void setGold(int gold) {
@@ -73,14 +38,5 @@ public class Enemy {
 
     public void setDespicableAct(boolean despicableAct) {
         this.despicableAct = despicableAct;
-    }
-
-    public boolean checkForDead() {
-        if (this.currentHealth == 0) {
-            return true;
-        }
-        else {
-            return false;
-        }
     }
 }

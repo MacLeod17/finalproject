@@ -1,60 +1,59 @@
 package edu.neumont.csc150.c.finalproject.model;
 
-public class Player {
-    private String name;
+public class Player extends Character {
     private String charClass;
     private String gender;
 
-    private int totalHealth;
-    private int currentHealth;
     private int level;
+    private int daysActive;
     private int battlesWon;
-    private int gold;
-    private int potionsLeft;
-    private int armorClass;
     private int winsNeeded;
     private int winsToNextLevel;
-    private int daysActive;
+    private int gold;
+    private int potionsLeft;
 
-    private Boolean ringActive;
+    private Boolean regenerationRingActive;
 
     private final int MIN_GOLD = 0;
     private final int MIN_POTIONS = 0;
-    private final int MIN_NAME_SIZE = 2;
-    private final int MAX_NAME_SIZE = 20;
-    private final int MAX_CLASS_SIZE = 20;
-    private final int MIN_CURRENT_HEALTH = 0;
 
     public Player() {
-        name = "";
-        charClass = "Fighter";
-        totalHealth = 100;
-        currentHealth = 100;
-        level = 1;
-        battlesWon = 0;
-        gold = 0;
-        potionsLeft = 0;
-        armorClass = 0;
-        winsNeeded = 5;
-        winsToNextLevel = 5;
-        gender = "Other";
-        daysActive = 0;
-        ringActive = false;
+        this.setName("Unknown");
+        this.setCharClass("Fighter");
+        this.setTotalHealth(1, 10);
+        this.setCurrentHealth(this.getTotalHealth());
+        this.setLevel(1);
+        this.setBattlesWon(0);
+        this.setGold(0);
+        this.setPotionsLeft(0);
+        this.setArmorClass(10);
+        this.setWinsNeeded(5);
+        this.setWinsToNextLevel(5);
+        this.setGender("Other");
+        this.setDaysActive(0);
+        this.setRegenerationRingActive(false);
     }
 
-    public String getName() {
-        return name;
-    }
+    public Player(String name, int totalHealth, int currentHealth, int armorClass, int damageMod, int hitBonus, int attackDice, int attackSides, String charClass, String gender, int level, int battlesWon, int gold, int potionsLeft, int winsNeeded, int winsToNextLevel, int daysActive, Boolean regenerationRingActive) {
+        this.setName(name);
+        this.setTotalHealth(totalHealth);
+        this.setCurrentHealth(currentHealth);
+        this.setArmorClass(armorClass);
+        this.setDamageMod(damageMod);
+        this.setHitBonus(hitBonus);
+        this.setAttackDice(attackDice);
+        this.setAttackSides(attackSides);
 
-    public void setName(String name) {
-        if(name.length() < MIN_NAME_SIZE || name.length() > MAX_NAME_SIZE) {
-            throw new IllegalArgumentException("Name must be 2-20 characters");
-        }
-        this.name = name;
-    }
-
-    public void resetName() {
-        this.name = "";
+        this.setCharClass(charClass);
+        this.setGender(gender);
+        this.setLevel(level);
+        this.setBattlesWon(battlesWon);
+        this.setGold(gold);
+        this.setPotionsLeft(potionsLeft);
+        this.setWinsNeeded(winsNeeded);
+        this.setWinsToNextLevel(winsToNextLevel);
+        this.setDaysActive(daysActive);
+        this.setRegenerationRingActive(regenerationRingActive);
     }
 
     public String getCharClass() {
@@ -62,21 +61,20 @@ public class Player {
     }
 
     public void setCharClass(String charClass) {
-        if(charClass.length() > MAX_CLASS_SIZE) {
-            throw new IllegalArgumentException("Character class cannot exceed 20 characters");
-        }
         this.charClass = charClass;
-        if(charClass.length() == 0 || charClass.isEmpty()) {
-            this.charClass = "Fighter";
-        }
-    }
-
-    public void resetCharClass() {
-        this.charClass = "Fighter";
     }
 
     public String getGender() {
         return this.gender;
+    }
+
+    public void setGender(String g) {
+        if (g.equals("")) {
+            this.gender = "Other";
+        }
+        else {
+            this.gender = g;
+        }
     }
 
     public String getPronoun() {
@@ -92,10 +90,10 @@ public class Player {
     }
 
     public String getOtherPronoun() {
-        if (gender.toLowerCase().equals("male") || gender.toLowerCase().equals("guy") || gender.toLowerCase().equals("boy") || gender.toLowerCase().equals("man")) {
+        if (gender.toLowerCase().equals("male")) {
             return "himself";
         }
-        else if (gender.toLowerCase().equals("female") || gender.toLowerCase().equals("girl") || gender.toLowerCase().equals("woman")) {
+        else if (gender.toLowerCase().equals("female")) {
             return "herself";
         }
         else {
@@ -103,109 +101,85 @@ public class Player {
         }
     }
 
-    public void setGender(String g) {
-        if (g.equals("")) {
-            this.gender = "Other";
-        }
-        else {
-            this.gender = g;
-        }
-    }
-
-    public void resetGender() {
-        this.gender = "Other";
-    }
-
-    public int getTotalHealth() {
-        return this.totalHealth;
-    }
-
-    public void raiseTotalHealth() {
-        this.totalHealth += 10;
-    }
-
-    public void resetTotalHealth() {
-        this.totalHealth = 100;
-    }
-
-    public int getCurrentHealth() {
-        return this.currentHealth;
-    }
-
-    public void takeDamage(int damage) {
-        if(damage < 1) {
-            this.currentHealth -= 1;
-        }
-        else {
-            this.currentHealth -= damage;
-        }
-        if(this.currentHealth < MIN_CURRENT_HEALTH) {
-            this.currentHealth = 0;
-        }
-    }
-
-    public void healDamage(int heal) {
-        this.removePotion();
-        this.currentHealth += heal;
-        if(this.currentHealth > totalHealth) {
-            this.currentHealth = totalHealth;
-        }
-    }
-
-    public void resetCurrentHealth() {
-        this.currentHealth = 100;
-    }
-
     public int getLevel() {
         return this.level;
     }
 
-    public void raiseLevel() {
-        raiseTotalHealth();
-        this.currentHealth = this.totalHealth;
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
+    public void raiseLevel(int newHealth) {
+        raiseTotalHealth(newHealth);
+        this.setCurrentHealth(this.getTotalHealth());
         this.level += 1;
         raiseWinsToNextLevel();
         setWinsNeeded();
     }
 
-    public void resetLevel() {
-        this.level = 0;
+    public int getDaysActive() {
+        return this.daysActive;
+    }
+
+    public void setDaysActive(int daysActive) {
+        this.daysActive = daysActive;
+    }
+
+    public void onPassDay() {
+        this.daysActive += 1;
+    }
+
+    public void onWait() {
+        if(this.regenerationRingActive) {
+            this.setCurrentHealth(this.getCurrentHealth() + 4);
+        }
+        else {
+            this.setCurrentHealth(this.getCurrentHealth() + 1);
+        }
+        if (this.getCurrentHealth() > this.getTotalHealth()) {
+            this.setCurrentHealth(this.getTotalHealth());
+        }
+        onPassDay();
     }
 
     public int getBattlesWon() {
         return this.battlesWon;
     }
 
-    public void battleWin() {
-        this.battlesWon += 1;
+    public void setBattlesWon(int wins) {
+        this.battlesWon = wins;
     }
 
-    public void resetBattlesWon() {
-        this.battlesWon = 0;
+    public void battleWin() {
+        this.battlesWon += 1;
     }
 
     public int getWinsNeeded() {
         return winsNeeded;
     }
 
-    public void setWinsNeeded() {
-        this.winsNeeded = (battlesWon + winsToNextLevel);
+    public void setWinsNeeded(int wins) {
+        this.winsNeeded = wins;
     }
 
-    public void resetWinsNeeded() {
-        this.winsNeeded = 5;
+    public void setWinsNeeded() {
+        setWinsNeeded(this.battlesWon + this.winsToNextLevel);
+    }
+
+    public void setWinsToNextLevel(int winsToNextLevel) {
+        this.winsToNextLevel = winsToNextLevel;
     }
 
     public void raiseWinsToNextLevel() {
         this.winsToNextLevel += 3;
     }
 
-    public void resetWinsToNextLevel() {
-        this.winsToNextLevel = 5;
-    }
-
     public int getGold() {
         return this.gold;
+    }
+
+    public void setGold(int gold) {
+        this.gold = gold;
     }
 
     public void addGold(int gold) {
@@ -219,12 +193,12 @@ public class Player {
         this.gold -= gold;
     }
 
-    public void resetGold() {
-        this.gold = 0;
-    }
-
     public int getPotionsLeft() {
         return this.potionsLeft;
+    }
+
+    public void setPotionsLeft(int potionsLeft) {
+        this.potionsLeft = potionsLeft;
     }
 
     public void addPotion(int cost) {
@@ -239,93 +213,45 @@ public class Player {
         this.potionsLeft -= 1;
     }
 
-    public void resetPotion() {
-        this.potionsLeft = 0;
+    public boolean getRegenerationRingActive() {
+        return this.regenerationRingActive;
     }
 
-    public int getArmorClass() {
-        return this.armorClass;
+    public void setRegenerationRingActive(boolean regenerationRingActive) {
+        this.regenerationRingActive = regenerationRingActive;
     }
 
-    public void raiseArmorClass(int cost) {
-        if(armorClass == 0) {
-            removeGold(cost);
-            this.armorClass += 10;
+    public void onBuyRegenerationRing(int cost) {
+        if(regenerationRingActive) {
+            throw new RuntimeException(String.format("%s can only own one Regeneration Ring", this.getName()));
         }
-        else if (armorClass == 30) {
+        removeGold(cost);
+        this.regenerationRingActive = true;
+    }
+
+    public void raiseTotalHealth(int newHealth) {
+        this.setTotalHealth(this.getTotalHealth() + newHealth);
+    }
+
+    public void healDamage(int heal) {
+        this.removePotion();
+        this.setCurrentHealth(this.getCurrentHealth() + heal);
+        if(this.getCurrentHealth() > this.getTotalHealth()) {
+            this.setCurrentHealth(this.getTotalHealth());
+        }
+    }
+
+    public void raiseArmorClass(int cost, int armorIncrease) {
+        if (this.getArmorClass() == 30) {
             throw new ArithmeticException("Armor level cannot exceed 30");
         }
         else {
             removeGold(cost);
-            this.armorClass += 5;
+            this.setArmorClass(this.getArmorClass() + armorIncrease);
+            /* armorIncrease accounts for the fact that different classes wear different armors */
         }
-    }
-
-    public void resetArmorClass() {
-        this.armorClass = 0;
-    }
-
-    public int getDaysActive() {
-        return this.daysActive;
-    }
-
-    public void onPassDay() {
-        this.daysActive += 1;
-    }
-
-    public void onWait() {
-        if(ringActive) {
-            if(currentHealth < 40) {
-                this.currentHealth += 4;
-            }
-        }
-        else {
-            if(currentHealth < 25) {
-                this.currentHealth += 1;
-            }
-        }
-        onPassDay();
-    }
-
-    public void resetDaysActive() {
-        this.daysActive = 0;
-    }
-
-    public void onBuyRing(int cost) {
-        if(ringActive) {
-            throw new RuntimeException("Ring can only be active once");
-        }
-        removeGold(cost);
-        this.ringActive = true;
-    }
-
-    public void resetRingActive() {
-        this.ringActive = false;
-    }
-
-    public void resetAll() {
-        resetArmorClass();
-        resetBattlesWon();
-        resetCharClass();
-        resetCurrentHealth();
-        resetGold();
-        resetLevel();
-        resetName();
-        resetPotion();
-        resetTotalHealth();
-        resetWinsNeeded();
-        resetWinsToNextLevel();
-        resetGender();
-        resetDaysActive();
-        resetRingActive();
-    }
-
-    public Boolean checkForLose() {
-        if(this.getCurrentHealth() <= 0) {
-            return true;
-        }
-        else {
-            return false;
+        if (this.getArmorClass() > 30) {
+            this.setArmorClass(30);
         }
     }
 }

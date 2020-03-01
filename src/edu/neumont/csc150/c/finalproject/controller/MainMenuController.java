@@ -50,11 +50,15 @@ public class MainMenuController {
         new QuestionController().run();
     }
 
-    private void viewCharacter() {
+    private void saveCharacter() {
+        //TODO Implement character saving after createCharacter()
+    }
 
+    private void viewCharacter() {
+        //TODO Implement viewing a specific character by name
     }
 
     private void searchCharacters() {
-        //TODO Implement search by character level-level range
+        //TODO Implement search for character by level-level range
     }
 }

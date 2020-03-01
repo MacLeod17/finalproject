@@ -1,5 +1,6 @@
 package edu.neumont.csc150.c.finalproject.controller;
 
+import edu.neumont.csc150.c.finalproject.model.Player;
 import edu.neumont.csc150.c.finalproject.view.QuestionsUI;
 
 import java.io.IOException;
@@ -15,7 +16,7 @@ public class QuestionController {
     private int clericAnswerCounter;
     private int thiefAnswerCounter;
 
-    public void run() throws IOException {
+    public Player run() throws IOException {
         int questionCounter = 0;
         boolean exitRequested = false;
         while (!exitRequested && questionCounter < 10) {
@@ -40,11 +41,14 @@ public class QuestionController {
             questionCounter++;
         }
         String charClass = determineCharacterClass();
-        ui.displayMessage(String.format("Fighter: %d", fighterAnswerCounter));
-        ui.displayMessage(String.format("Wizard: %d", wizardAnswerCounter));
-        ui.displayMessage(String.format("Cleric: %d", clericAnswerCounter));
-        ui.displayMessage(String.format("Thief: %d", thiefAnswerCounter));
-        ui.displayMessage(String.format("Your Class: %s", charClass));
+//        ui.displayMessage(String.format("Fighter: %d", fighterAnswerCounter));
+//        ui.displayMessage(String.format("Wizard: %d", wizardAnswerCounter));
+//        ui.displayMessage(String.format("Cleric: %d", clericAnswerCounter));
+//        ui.displayMessage(String.format("Thief: %d", thiefAnswerCounter));
+//        ui.displayMessage(String.format("Your Class: %s", charClass));
+//        Player player = new Player();
+//        return player;
+        return null;
     }
 
     private String determineCharacterClass() {
