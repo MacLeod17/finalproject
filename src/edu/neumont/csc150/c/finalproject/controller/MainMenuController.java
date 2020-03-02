@@ -64,7 +64,7 @@ public class MainMenuController {
 
     private void createCharacter() throws IOException {
         Player player = new QuestionController().run();
-        saveCharacter(String.format("%s_%d", player.getName(), player.getLevel()), player);
+        saveCharacter(String.format("%s_%s", player.getCharClass(), player.getName()), player);
     }
 
     private void saveCharacter(String fileName, Player player) throws FileNotFoundException {
@@ -81,9 +81,8 @@ public class MainMenuController {
     /** View all of a specific Player's properties except attackDice, attackSides, winsNeeded, and winsToNextLevel */
     private void viewCharacter() throws IOException {
         String name = ui.readString("Enter your character's name", 2);
-        ui.displayMessage("Enter your character's level");
-        int level = ui.readInt(1, 100);
-        String fileName = String.format("%s_%d", name, level);
+        String clazz = ui.readString("Enter your character's class", 1);
+        String fileName = String.format("%s_%s", clazz, name);
         File folder = new File(characterFolder);
         File[] files = folder.listFiles();
         for (File file : files) {
@@ -100,10 +99,7 @@ public class MainMenuController {
 
     /** Search by range of levels; shows level, name, charClass, and gender of search results */
     private void searchCharacters() throws IOException {
-        ui.displayMessage("Enter the min level");
-        int min = ui.readInt(0, 100);
-        ui.displayMessage("Enter max level");
-        int max = ui.readInt(min, 100);
+        String clazz = ui.readString("Enter your chosen class", 1);
         List<Player> searchResults = new ArrayList<>();
 
         File folder = new File(characterFolder);
@@ -111,8 +107,8 @@ public class MainMenuController {
         for (File file : files) {
             String fileName = file.getName();
             String[] fileNamePieces = fileName.split("_");
-            int level = Integer.parseInt(fileNamePieces[1]);
-            if (level <= max && level >= min) {
+            String fileClass = fileNamePieces[0];
+            if (clazz.equals(fileClass)) {
                 Player player = loadPlayer(file.getAbsolutePath());
                 searchResults.add(player);
             }
