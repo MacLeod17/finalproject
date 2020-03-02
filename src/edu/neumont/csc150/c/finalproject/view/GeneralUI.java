@@ -42,6 +42,35 @@ public abstract class GeneralUI {
         }
     }
 
+    public boolean readBoolean(String prompt, String trueString, String falseString) throws IOException {
+        boolean userBoolean = false;
+        boolean isInvalid = true;
+        do {
+            String input = readString(prompt, 1);
+            try {
+                if (input.trim().toLowerCase().equals(trueString.toLowerCase())) {
+                    userBoolean = true;
+                }
+                else if (input.trim().toLowerCase().equals(falseString.toLowerCase())) {
+                    userBoolean = false;
+                }
+                else {
+                    throw new IllegalArgumentException();
+                }
+                isInvalid = false;
+            }
+            catch (IllegalArgumentException ex) {
+                isInvalid = true;
+            }
+
+            if(isInvalid) {
+                displayError(String.format("You must enter either %s or %s. Please, try again.", trueString, falseString));
+            }
+        } while (isInvalid);
+
+        return userBoolean;
+    }
+
     public LocalDate readDate(int minYear, int maxYear) throws IOException {
         displayMessage("Enter the year");
         int year = readInt(minYear, maxYear);

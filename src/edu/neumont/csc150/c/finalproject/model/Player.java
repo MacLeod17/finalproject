@@ -20,7 +20,7 @@ public class Player extends Character {
     public Player() {
         this.setName("Unknown");
         this.setCharClass("Fighter");
-        this.setTotalHealth(1, 10);
+        this.setTotalHealth(12);
         this.setCurrentHealth(this.getTotalHealth());
         this.setLevel(1);
         this.setBattlesWon(0);

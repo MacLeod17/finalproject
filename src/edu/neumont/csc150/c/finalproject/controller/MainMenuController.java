@@ -4,7 +4,6 @@ import edu.neumont.csc150.c.finalproject.model.Player;
 import edu.neumont.csc150.c.finalproject.view.MainMenuUI;
 
 import java.io.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +11,7 @@ public class MainMenuController {
 
     private final static String characterFolder = "characters";
     private MainMenuUI ui = new MainMenuUI();
+    private Player player;
 
     public MainMenuController() {
         File folder = new File(characterFolder);
@@ -44,9 +44,22 @@ public class MainMenuController {
         }
     }
 
-    private void playGame() {
+    private void playGame() throws IOException {
         //TODO Implement Character search
-        new GameController().run();
+        player = null;
+        viewCharacter();
+        if (player == null) {
+            ui.displayError("Returning you to Main Menu");
+        }
+        else {
+            boolean isPlaying = ui.readBoolean("Would you like to play this character?", "Yes", "No");
+            if (isPlaying) {
+                new GameController().run(player);
+            }
+            else {
+                ui.displayMessage("Returning you to Main Menu");
+            }
+        }
     }
 
     private void createCharacter() throws IOException {
@@ -76,13 +89,13 @@ public class MainMenuController {
         for (File file : files) {
             if (fileName.equals(file.getName())) {
                 BufferedReader inFile = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
-                Player player = new Player();
+                player = new Player();
                 player.deserialize(inFile.readLine().trim());
                 ui.displayMessage(player.toString());
                 return;
             }
         }
-        ui.displayMessage("There is no character with the name and level entered");
+        ui.displayError("There is no character with the name and level entered");
     }
 
     /** Search by range of levels; shows level, name, charClass, and gender of search results */
