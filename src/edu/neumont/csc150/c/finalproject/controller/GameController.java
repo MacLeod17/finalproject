@@ -56,6 +56,7 @@ public class GameController {
             case "enter town":
             case "buy equipment":
             case "buy stuff":
+            case "go to shop":
                 promptTownMenu();
                 return false;
             case "exit":
