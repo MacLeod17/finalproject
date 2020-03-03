@@ -24,7 +24,7 @@ public class GameUI extends GeneralUI {
     }
 
     private String buildTownMenuDisplay() {
-        return String.format("Main Menu\r\n" +
+        return String.format("Town Menu\r\n" +
                         " 1 - %s\r\n" +
                         " 2 - %s\r\n" +
                         " 3 - %s\r\n" +

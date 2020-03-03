@@ -42,7 +42,7 @@ public abstract class Character {
         this.totalHealth = hp;
     }
 
-    /** Used for rolling health the first time (Ex. a creature with 5d8 hp, or a brand new character) **/
+    /** Used for rolling health the first time (Ex. a creature with 5d8 hp) */
     public void setTotalHealth(int dice, int sides) {
         this.totalHealth = roll(dice, sides);
     }
@@ -144,8 +144,8 @@ public abstract class Character {
     /** Damage Multiplier is for special attack types like Thief's sneak attack (if special attacks are ever implemented) */
     public int attack(int enemyArmorClass, int specialHitBonus, int damageMultiplier) {
         int rawRoll = roll(1, 20); /** Simulates the d20 roll without any bonuses */
-        int roll = rawRoll + this.hitBonus + specialHitBonus; /** Simulates d20 after character's bonus to hit */
-        /** Minimum 1 in 20 chance of hitting or missing */
+        int roll = rawRoll + this.hitBonus + specialHitBonus; /** Simulates d20 after character's bonus to hit
+        * Minimum 1 in 20 chance of hitting or missing */
         if (rawRoll == 1) {
             setHitType("Natch 1! Critical Miss!");
             return 0;
@@ -155,11 +155,11 @@ public abstract class Character {
             return (this.attackDice * this.attackSides) * damageMultiplier;
         }
         else if (roll >= enemyArmorClass) {
-            setHitType("Hit!");
+            setHitType(String.format("%d, Hit!", roll));
             return roll(this.attackDice, this.attackSides) * damageMultiplier;
         }
         else {
-            setHitType("Miss!");
+            setHitType(String.format("%d, Miss!", roll));
             return 0;
         }
     }
