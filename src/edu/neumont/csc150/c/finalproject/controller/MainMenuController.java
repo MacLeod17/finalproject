@@ -67,7 +67,7 @@ public class MainMenuController {
         saveCharacter(String.format("%s_%s", player.getCharClass(), player.getName()), player);
     }
 
-    private void saveCharacter(String fileName, Player player) throws FileNotFoundException {
+    protected static void saveCharacter(String fileName, Player player) throws FileNotFoundException {
         File file = new File(characterFolder, fileName);
         PrintStream outFile = new PrintStream(file);
         try {

@@ -7,10 +7,9 @@ import java.util.Random;
 public class Enemies {
     private List<Enemy> enemies = new ArrayList<>();
     private Random gen = new Random();
-    private int indexCounter;
 
-    Enemies() { // 4 Despicables, 36 Battles
-        /** These show name, gold, what damage would'v been, and if killing them was despicable **/
+    public Enemies() { // 4 Despicables, 36 Battles
+        /** These show name, gold, what damage would've been, and if killing them was despicable **/
 //        enemies.add(new Enemy("Neighbor", 10, 10, true));
 //        enemies.add(new Enemy("Cheating Ex-Spouse", 10, 20, true));
 //        enemies.add(new Enemy("School Teacher", 15, 10, true));
@@ -56,19 +55,11 @@ public class Enemies {
 //        enemies.add(new Enemy("Kraken", 65, 40, false));
     }
 
-    public void addCreature(String name, int healthDice, int healthSides, int armorClass, int damageMod, int attackDice, int attackSides, int gold, int percentChanceToFollowPlayer, boolean despicableAct) {
-        enemies.add(new Enemy(name, healthDice, healthSides, armorClass, damageMod, attackDice, attackSides, gold, percentChanceToFollowPlayer, despicableAct));
+    public void addCreature(String name, int healthDice, int healthSides, int armorClass, int damageMod, int attackDice, int attackSides, int gold, boolean despicableAct) {
+        enemies.add(new Enemy(name, healthDice, healthSides, armorClass, damageMod, attackDice, attackSides, gold, despicableAct));
     }
 
-    public Enemy getCreature(int index) {
-        return this.enemies.get(index);
-    }
-
-    public int getIndexCounter() {
-        return this.indexCounter;
-    }
-
-    public void setIndex() {
-        indexCounter = gen.nextInt(enemies.size());
+    public Enemy getCreature() {
+        return this.enemies.get(gen.nextInt(enemies.size()));
     }
 }
