@@ -1,6 +1,6 @@
 package edu.neumont.csc150.c.finalproject.controller;
 
-import edu.neumont.csc150.c.finalproject.model.Player;
+import edu.neumont.csc150.c.finalproject.model.playerclasses.*;
 import edu.neumont.csc150.c.finalproject.view.QuestionsUI;
 
 import java.io.IOException;
@@ -93,13 +93,13 @@ public class QuestionController {
         String gender = ui.readString("Enter your character's gender, or press enter to use default", 0);
         switch (charClass) {
             case "Fighter":
-                return new Player(name, 12, 13, 2, 1, 2, 8, charClass, gender);
+                return new Fighter(name, gender);
             case "Wizard":
-                return new Player(name, 6, 10, 0, 0, 1, 8, charClass, gender);
+                return new Wizard(name, gender);
             case "Cleric":
-                return new Player(name, 10, 12, 0, 1, 1, 10, charClass, gender);
+                return new Cleric(name, gender);
             case "Thief":
-                return new Player(name, 8, 10, 1, 0, 2, 6, charClass, gender);
+                return new Thief(name, gender);
             default:
                 throw new RuntimeException();
         }

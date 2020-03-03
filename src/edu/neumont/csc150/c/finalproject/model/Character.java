@@ -99,7 +99,8 @@ public abstract class Character {
 
     public void setHitBonus(int hitBonus) {
         if (hitBonus < 0) {
-            throw new IllegalArgumentException("hitBonus must be non-negative");
+            this.hitBonus = 0;
+            return;
         }
         this.hitBonus = hitBonus;
     }
@@ -144,24 +145,24 @@ public abstract class Character {
     /** Damage Multiplier is for special attack types like Thief's sneak attack (if special attacks are ever implemented) */
     public int attack(int enemyArmorClass, int specialHitBonus, int damageMultiplier) {
         int rawRoll = roll(1, 20); /** Simulates the d20 roll without any bonuses */
-        int roll = rawRoll + this.hitBonus + specialHitBonus; /** Simulates d20 after character's bonus to hit
-        * Minimum 1 in 20 chance of hitting or missing */
+        int roll = rawRoll + this.hitBonus + specialHitBonus; /** Simulates d20 after character's bonus to hit */
+        int damage = 0;
+        /** Minimum 1 in 20 chance of hitting or missing */
         if (rawRoll == 1) {
             setHitType("Natch 1! Critical Miss!");
-            return 0;
         }
         else if (rawRoll == 20) {
-            setHitType("Natch 20! Critical Hit!");
-            return (this.attackDice * this.attackSides) * damageMultiplier;
+            damage = (this.attackDice * this.attackSides) * damageMultiplier;
+            setHitType(String.format("Natch 20! Critical Hit! %d damage!", damage));
         }
         else if (roll >= enemyArmorClass) {
-            setHitType(String.format("%d, Hit!", roll));
-            return roll(this.attackDice, this.attackSides) * damageMultiplier;
+            damage = roll(this.attackDice, this.attackSides) * damageMultiplier;
+            setHitType(String.format("Roll of %d, Hit! %d damage!", roll, damage));
         }
         else {
-            setHitType(String.format("%d, Miss!", roll));
-            return 0;
+            setHitType(String.format("Roll of %d, Miss!", roll));
         }
+        return damage;
     }
 
     public Boolean checkForDeath() {

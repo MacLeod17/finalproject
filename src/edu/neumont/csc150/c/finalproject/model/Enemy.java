@@ -2,7 +2,7 @@ package edu.neumont.csc150.c.finalproject.model;
 
 public class Enemy extends Character {
     private int gold;
-    private int percentChanceToFollowPlayer;
+    private int expValue;
     private boolean despicableAct;
 
     public Enemy() {
@@ -11,18 +11,29 @@ public class Enemy extends Character {
 
     public Enemy(String name, int healthDice, int healthSides, int armorClass, int damageMod, int attackDice, int attackSides, int gold, boolean despicableAct) {
         this.setName(name);
+        /** Two different enemies of the same type can have different total health
+         (Some individuals will be tougher than others of the same type) */
         this.setTotalHealth(this.roll(healthDice, healthSides));
         this.setCurrentHealth(this.getTotalHealth());
-        /** Two different enemies of the same type can have different total health
-        (Some individuals will be tougher than others of the same type) */
         this.setArmorClass(armorClass);
         this.setDamageMod(damageMod);
-        this.setHitBonus(healthDice - 1);
-        /** Basically sets hit bonus equal to number of Hit Dice (Monster equivalent of level); Bigger Bads attack better */
+        this.setHitBonus(healthDice - 3);
+        /** Bigger Bads attack better */
         this.setAttackDice(attackDice);
         this.setAttackSides(attackSides);
         this.setGold(gold);
         this.setDespicableAct(despicableAct);
+        this.setExpValue();
+    }
+
+    public int getExpValue() {
+        return this.expValue;
+    }
+
+    /** If one goblin rolls low on hit points, he will be worth less experience than one who rolls high because
+     * totalHealth can severely affect difficulty of the battle */
+    private void setExpValue() {
+        this.expValue = this.getTotalHealth() * 10;
     }
 
     public int getGold() {
@@ -42,5 +53,15 @@ public class Enemy extends Character {
 
     public void setDespicableAct(boolean despicableAct) {
         this.despicableAct = despicableAct;
+    }
+
+    /** The string returned is intended to hide specific details from the user (The user shouldn't know the enemy's damage range,
+     * hit bonus, damage bonus, exp value, how much gold it has, etc) */
+    public String toBattleString() {
+        return String.format(
+                "\r\nName: %s" +
+                "\r\nHealth: %d/%d" +
+                "\r\nDespicable Act: %b",
+                this.getName(), this.getCurrentHealth(), this.getTotalHealth(), this.isDespicableAct());
     }
 }

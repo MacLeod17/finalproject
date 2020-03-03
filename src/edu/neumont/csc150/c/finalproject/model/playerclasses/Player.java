@@ -1,14 +1,16 @@
-package edu.neumont.csc150.c.finalproject.model;
+package edu.neumont.csc150.c.finalproject.model.playerclasses;
 
-public class Player extends Character {
-    private String charClass;
+import edu.neumont.csc150.c.finalproject.model.Character;
+
+public abstract class Player extends Character {
     private String gender;
 
     private int level;
+    private int hoursActive;
     private int daysActive;
-    private int battlesWon;
-    private int winsNeeded;
-    private int winsToNextLevel;
+    private int currentExp;
+    private int expNeeded;
+    private int expToNextLevel;
     private int gold;
     private int potionsLeft;
 
@@ -18,24 +20,11 @@ public class Player extends Character {
     private final int MIN_POTIONS = 0;
 
     public Player() {
-        this.setName("Unknown");
-        this.setCharClass("Fighter");
-        this.setTotalHealth(12);
-        this.setCurrentHealth(this.getTotalHealth());
-        this.setLevel(1);
-        this.setBattlesWon(0);
-        this.setGold(0);
-        this.setPotionsLeft(0);
-        this.setArmorClass(10);
-        this.setWinsNeeded(5);
-        this.setWinsToNextLevel(5);
-        this.setGender("Other");
-        this.setDaysActive(0);
-        this.setRegenerationRingActive(false);
+
     }
 
     /** This Constructor is used for creating a brand new character */
-    public Player(String name, int totalHealth, int armorClass, int damageMod, int hitBonus, int attackDice, int attackSides, String charClass, String gender) {
+    public Player(String name, int totalHealth, int armorClass, int damageMod, int hitBonus, int attackDice, int attackSides, String gender) {
         this.setName(name);
         this.setTotalHealth(totalHealth);
         this.setCurrentHealth(this.getTotalHealth());
@@ -45,25 +34,16 @@ public class Player extends Character {
         this.setAttackDice(attackDice);
         this.setAttackSides(attackSides);
 
-        this.setCharClass(charClass);
         this.setGender(gender);
         this.setLevel(1);
-        this.setBattlesWon(0);
+        this.setCurrentExp(0);
         this.setGold(0);
         this.setPotionsLeft(0);
-        this.setWinsNeeded(5);
-        this.setWinsToNextLevel(5);
+        this.setExpNeeded(1000);
+        this.setExpToNextLevel(1000);
+        this.setHoursActive(0);
         this.setDaysActive(0);
         this.setRegenerationRingActive(false);
-    }
-
-    public String getCharClass() {
-        return this.charClass;
-    }
-
-    /** Used only for initial creation */
-    public void setCharClass(String charClass) {
-        this.charClass = charClass;
     }
 
     public String getGender() {
@@ -118,12 +98,31 @@ public class Player extends Character {
         this.level = level;
     }
 
+    public abstract void raiseLevel();
+
     public void raiseLevel(int newHealth) {
         raiseTotalHealth(newHealth);
         this.setCurrentHealth(this.getTotalHealth());
         this.level += 1;
-        raiseWinsToNextLevel();
-        setWinsNeeded();
+        raiseExpToNextLevel();
+        setExpNeeded();
+    }
+
+    public int getHoursActive() {
+        return this.hoursActive;
+    }
+
+    /** Used only for reloading character that has already been made */
+    public void setHoursActive(int hours) {
+        this.hoursActive = hours;
+    }
+
+    public void onPassHour() {
+        if (this.hoursActive == 24) {
+            onPassDay();
+            return;
+        }
+        this.hoursActive += 1;
     }
 
     public int getDaysActive() {
@@ -136,6 +135,7 @@ public class Player extends Character {
     }
 
     public void onPassDay() {
+        this.setHoursActive(0);
         this.daysActive += 1;
     }
 
@@ -152,43 +152,43 @@ public class Player extends Character {
         onPassDay();
     }
 
-    public int getBattlesWon() {
-        return this.battlesWon;
+    public int getCurrentExp() {
+        return this.currentExp;
     }
 
     /** Used only for reloading character that has already been made */
-    public void setBattlesWon(int wins) {
-        this.battlesWon = wins;
+    public void setCurrentExp(int exp) {
+        this.currentExp = exp;
     }
 
-    public void battleWin() {
-        this.battlesWon += 1;
+    public void battleWin(int expValue) {
+        this.currentExp += expValue;
     }
 
-    public int getWinsNeeded() {
-        return winsNeeded;
-    }
-
-    /** Used only for reloading character that has already been made */
-    public void setWinsNeeded(int wins) {
-        this.winsNeeded = wins;
-    }
-
-    public void setWinsNeeded() {
-        setWinsNeeded(this.battlesWon + this.winsToNextLevel);
-    }
-
-    public int getWinsToNextLevel() {
-        return this.winsToNextLevel;
+    public int getExpNeeded() {
+        return this.expNeeded;
     }
 
     /** Used only for reloading character that has already been made */
-    public void setWinsToNextLevel(int winsToNextLevel) {
-        this.winsToNextLevel = winsToNextLevel;
+    public void setExpNeeded(int expTotal) {
+        this.expNeeded = expTotal;
     }
 
-    public void raiseWinsToNextLevel() {
-        this.winsToNextLevel += 3;
+    public void setExpNeeded() {
+        setExpNeeded(this.expNeeded + this.expToNextLevel);
+    }
+
+    public int getExpToNextLevel() {
+        return this.expToNextLevel;
+    }
+
+    /** Used only for reloading character that has already been made */
+    public void setExpToNextLevel(int exp) {
+        this.expToNextLevel = exp;
+    }
+
+    public void raiseExpToNextLevel() {
+        this.expToNextLevel += 1000;
     }
 
     public int getGold() {
@@ -227,7 +227,7 @@ public class Player extends Character {
 
     public void removePotion() {
         if (this.potionsLeft <= MIN_POTIONS) {
-            throw new RuntimeException("Potion count cannot go below 0");
+            throw new IllegalStateException("Potion count cannot go below 0");
         }
         this.potionsLeft -= 1;
     }
@@ -247,6 +247,10 @@ public class Player extends Character {
         }
         removeGold(cost);
         this.regenerationRingActive = true;
+    }
+
+    public void raiseHitBonus() {
+        this.setHitBonus(this.getHitBonus() + 1);
     }
 
     public void raiseTotalHealth(int newHealth) {
@@ -276,10 +280,10 @@ public class Player extends Character {
     }
 
     public String serialize() {
-        return String.format("%s|%d|%d|%d|%d|%d|%d|%d|%s|%s|%d|%d|%d|%d|%d|%d|%d|%b",
+        return String.format("%s|%d|%d|%d|%d|%d|%d|%d|%s|%s|%d|%d|%d|%d|%d|%d|%d|%d|%b",
                 this.getName(), this.getTotalHealth(), this.getCurrentHealth(), this.getArmorClass(), this.getDamageMod(), this.getHitBonus(),
-                this.getAttackDice(), this.getAttackSides(), this.getCharClass(), this.getGender(), this.getLevel(), this.getBattlesWon(),
-                this.getGold(), this.getPotionsLeft(), this.getWinsNeeded(), this.getWinsToNextLevel(), this.getDaysActive(),
+                this.getAttackDice(), this.getAttackSides(), this.getClass().getSimpleName(), this.getGender(), this.getLevel(), this.getCurrentExp(),
+                this.getGold(), this.getPotionsLeft(), this.getExpNeeded(), this.getExpToNextLevel(), this.getHoursActive(), this.getDaysActive(),
                 this.isRegenerationRingActive());
     }
 
@@ -293,20 +297,34 @@ public class Player extends Character {
         this.setHitBonus(Integer.parseInt(pieces[5].trim()));
         this.setAttackDice(Integer.parseInt(pieces[6].trim()));
         this.setAttackSides(Integer.parseInt(pieces[7].trim()));
-        this.setCharClass(pieces[8].trim());
         this.setGender(pieces[9].trim());
         this.setLevel(Integer.parseInt(pieces[10].trim()));
-        this.setBattlesWon(Integer.parseInt(pieces[11].trim()));
+        this.setCurrentExp(Integer.parseInt(pieces[11].trim()));
         this.setGold(Integer.parseInt(pieces[12].trim()));
         this.setPotionsLeft(Integer.parseInt(pieces[13].trim()));
-        this.setWinsNeeded(Integer.parseInt(pieces[14].trim()));
-        this.setWinsToNextLevel(Integer.parseInt(pieces[15].trim()));
-        this.setDaysActive(Integer.parseInt(pieces[16].trim()));
-        this.setRegenerationRingActive(Boolean.parseBoolean(pieces[17].trim()));
+        this.setExpNeeded(Integer.parseInt(pieces[14].trim()));
+        this.setExpToNextLevel(Integer.parseInt(pieces[15].trim()));
+        this.setHoursActive(Integer.parseInt(pieces[16].trim()));
+        this.setDaysActive(Integer.parseInt(pieces[17].trim()));
+        this.setRegenerationRingActive(Boolean.parseBoolean(pieces[18].trim()));
     }
 
     public String toSearchString() {
-        return String.format("Name: %s, Class: %s, Gender: %s Level: %d", this.getName(), this.getCharClass(), this.getGender(), this.getLevel());
+        return String.format("Name: %s, Class: %s, Gender: %s Level: %d", this.getName(), this.getClass().getSimpleName(), this.getGender(), this.getLevel());
+    }
+
+    public String toBattleString() {
+        return String.format(
+                "Name: %s" +
+                "\r\nClass: %s" +
+                "\r\nLevel: %d" +
+                "\r\nHealth: %d/%d" +
+                "\r\nArmor Class: %d" +
+                "\r\nPotions Left: %d" +
+                "\r\nAttack Damage: %dd%d + %d" +
+                "\r\nExperience: %d/%d",
+                this.getName(), this.getClass().getSimpleName(), this.getLevel(), this.getCurrentHealth(), this.getTotalHealth(), this.getArmorClass(),
+                this.getPotionsLeft(), this.getAttackDice(), this.getAttackSides(), this.getDamageMod(), this.getCurrentExp(), this.getExpNeeded());
     }
 
     @Override
@@ -316,18 +334,18 @@ public class Player extends Character {
                         "\r\nClass: %s" +
                         "\r\nGender: %s" +
                         "\r\nLevel: %d" +
-                        "\r\nCurrent Health: %d" +
-                        "\r\nTotal Health: %d" +
+                        "\r\nHealth: %d/%d" +
                         "\r\nArmor Class: %d" +
-                        "\r\nDamage Mod: %d" +
+                        "\r\nAttack Damage: %dd%d + %d" +
                         "\r\nHit Bonus: %d" +
                         "\r\nGold: %d" +
                         "\r\nPotions Left: %d" +
                         "\r\nHas Regeneration Ring: %b" +
-                        "\r\nBattles Won: %d" +
+                        "\r\nExperience: %d/%d" +
+                        "\r\nHour of Day: %d" +
                         "\r\nDays Active: %d",
-                this.getName(), this.getCharClass(), this.getGender(), this.getLevel(), this.getCurrentHealth(), this.getTotalHealth(),
-                this.getArmorClass(), this.getDamageMod(), this.getHitBonus(), this.getGold(), this.getPotionsLeft(),
-                this.isRegenerationRingActive(), this.getBattlesWon(), this.getDaysActive());
+                this.getName(), this.getClass().getSimpleName(), this.getGender(), this.getLevel(), this.getCurrentHealth(), this.getTotalHealth(),
+                this.getArmorClass(), this.getAttackDice(), this.getAttackSides(), this.getDamageMod(), this.getHitBonus(), this.getGold(), this.getPotionsLeft(),
+                this.isRegenerationRingActive(), this.getCurrentExp(), this.getExpNeeded(), this.getHoursActive(), this.getDaysActive());
     }
 }

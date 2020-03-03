@@ -6,15 +6,10 @@ public class Hills extends Terrain {
         this.setIntroString("You find yourself in the rocky hills. The land is rough");
         this.setName("Hills");
         this.setPlaceMarker('H');
-        //this.addEnemy();
-        //this.addEnemy();
-        //this.addEnemy();
-        //this.addEnemy();
-        //this.addEnemy();
-        //this.addEnemy();
-        //this.addEnemy();
-        //this.addEnemy();
-        //this.addEnemy();
-        //this.addEnemy();
+
+        this.addEnemy("Goblin",2, 6, 10, 0, 1, 6, 30, false);
+        this.addEnemy("Orc", 2, 8, 12, 1, 1, 8, 20, false);
+        this.addEnemy("Zombie", 2, 6, 11, 1, 1, 8, 2, false);
+        this.addEnemy("Skeleton", 1, 10, 14, 2, 1, 10, 0, false);
     }
 }

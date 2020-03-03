@@ -3,7 +3,6 @@ package edu.neumont.csc150.c.finalproject.view;
 import java.io.IOException;
 
 public class GameUI extends GeneralUI {
-
     public enum TownMenuItem {
         LEAVE_TOWN,
         REST,
@@ -12,13 +11,34 @@ public class GameUI extends GeneralUI {
         BUY_RING
     }
 
+    public enum BattleMenuItem {
+        FLEE,
+        ATTACK,
+        DRINK_POTION
+    }
+
     public GameUI() {
 
     }
 
+    public BattleMenuItem promptBattleMenuSelection() throws IOException {
+        String townMenuString = buildBattleMenuDisplay();
+        displayMessage(townMenuString);
+        int sel = readInt(0, 4);
+        return BattleMenuItem.values()[sel];
+    }
+
+    private String buildBattleMenuDisplay() {
+        return String.format("To Battle!\r\n" +
+                " 1 - %s\r\n" +
+                " 2 - %s\r\n" +
+                " 0 - %s\r\n",
+                BattleMenuItem.ATTACK, BattleMenuItem.DRINK_POTION, BattleMenuItem.FLEE);
+    }
+
     public GameUI.TownMenuItem promptTownMenuSelection() throws IOException {
-        String mainMenuString = buildTownMenuDisplay();
-        displayMessage(mainMenuString);
+        String townMenuString = buildTownMenuDisplay();
+        displayMessage(townMenuString);
         int sel = readInt(0, 4);
         return TownMenuItem.values()[sel];
     }

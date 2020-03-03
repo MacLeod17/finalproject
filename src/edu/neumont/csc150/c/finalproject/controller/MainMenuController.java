@@ -1,6 +1,6 @@
 package edu.neumont.csc150.c.finalproject.controller;
 
-import edu.neumont.csc150.c.finalproject.model.Player;
+import edu.neumont.csc150.c.finalproject.model.playerclasses.*;
 import edu.neumont.csc150.c.finalproject.view.MainMenuUI;
 
 import java.io.*;
@@ -64,7 +64,7 @@ public class MainMenuController {
 
     private void createCharacter() throws IOException {
         Player player = new QuestionController().run();
-        saveCharacter(String.format("%s_%s", player.getCharClass(), player.getName()), player);
+        saveCharacter(String.format("%s_%s", player.getClass().getSimpleName(), player.getName()), player);
     }
 
     protected static void saveCharacter(String fileName, Player player) throws FileNotFoundException {
@@ -88,7 +88,7 @@ public class MainMenuController {
         for (File file : files) {
             if (fileName.equals(file.getName())) {
                 BufferedReader inFile = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
-                player = new Player();
+                player = determineClass(file.getName());
                 player.deserialize(inFile.readLine().trim());
                 ui.displayMessage(player.toString());
                 return;
@@ -127,7 +127,7 @@ public class MainMenuController {
 
             }
             if (!content.trim().isEmpty()) {
-                Player p = new Player();
+                Player p = determineClass(userFileName);
                 p.deserialize(content);
                 return p;
             }
@@ -136,5 +136,23 @@ public class MainMenuController {
             inFile.close();
         }
         return null;
+    }
+
+    private Player determineClass(String userFileName) {
+        if (userFileName.contains("Fighter")) {
+            return new Fighter();
+        }
+        else if (userFileName.contains("Wizard")) {
+            return new Wizard();
+        }
+        else if (userFileName.contains("Cleric")) {
+            return new Cleric();
+        }
+        else if (userFileName.contains("Thief")) {
+            return new Thief();
+        }
+        else {
+            return null;
+        }
     }
 }

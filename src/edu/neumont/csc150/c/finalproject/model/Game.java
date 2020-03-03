@@ -8,7 +8,6 @@ import java.util.Random;
 
 public class Game {
     private Terrains terrains = new Terrains();
-    private Enemy currentEnemy;
     private Random gen = new Random();
 
     private final int TOWN_COUNT = 2;
@@ -124,6 +123,16 @@ public class Game {
                 return new Town();
             default:
                 return null;
+        }
+    }
+
+    public Enemy checkForEncounter() {
+        int encounterValue = gen.nextInt(100) + 1;
+        if (encounterValue < 20) {
+            return this.getTerrain().getEnemies().getCreature();
+        }
+        else {
+            return null;
         }
     }
 }
