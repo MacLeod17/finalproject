@@ -108,32 +108,50 @@ public class GameController {
         switch (action.toLowerCase()) {
             case "go east":
             case "go right":
+            case "travel east":
+            case "head east":
+            case "east":
+            case "right":
                 moveEast();
                 player.onPassHour();
                 return false;
             case "go south":
             case "go down":
+            case "travel south":
+            case "head south":
+            case "south":
+            case "down":
                 moveSouth();
                 player.onPassHour();
                 return false;
             case "go west":
             case "go left":
+            case "travel west":
+            case "head west":
+            case "west":
+            case "left":
                 moveWest();
                 player.onPassHour();
                 return false;
             case "go north":
             case "go up":
+            case "travel north":
+            case "head north":
+            case "north":
+            case "up":
                 moveNorth();
                 player.onPassHour();
                 return false;
             case "save game":
             case "save character":
+            case "save":
                 saveGame();
                 return false;
             case "enter town":
             case "buy equipment":
             case "buy stuff":
             case "go to shop":
+            case "go to town":
                 promptTownMenu();
                 player.onPassHour();
                 return false;

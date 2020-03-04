@@ -74,7 +74,7 @@ public class Game {
                 userMap[row][col] = gameMap[row][col];
             }
         }
-        userMap[currentRow][currentCol] = 'C';
+        userMap[currentRow][currentCol] = 'X';
     }
 
     public void moveNorth() {
@@ -127,8 +127,8 @@ public class Game {
     }
 
     public Enemy checkForEncounter() {
-        int encounterValue = gen.nextInt(100) + 1;
-        if (encounterValue < 20) {
+        int encounterValue = gen.nextInt(20) + 1;
+        if (encounterValue < 10) {
             return this.getTerrain().getEnemies().getCreature();
         }
         else {
