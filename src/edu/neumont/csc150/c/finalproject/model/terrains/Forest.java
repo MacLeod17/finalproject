@@ -12,8 +12,8 @@ public class Forest extends Terrain {
         this.addEnemy("Goblin",2, 6, 10, 0, 1, 6, 30, false);
         this.addEnemy("Orc", 2, 8, 12, 1, 1, 8, 20, false);
         this.addEnemy("Zombie", 2, 6, 11, 1, 1, 8, 2, false);
-        this.addEnemy("Skeleton", 1, 10, 14, 2, 1, 10, 0, false);
-        this.addEnemy("Wolverine", 3, 8, 12, 2, 1, 6, 0, false);
+        this.addEnemy("Skeleton", 1, 10, 14, 2, 1, 10, 5, false);
+        this.addEnemy("Wolverine", 3, 8, 12, 2, 1, 6, 5, false);
         this.addEnemy("Wight", 4, 8, 16, 1, 1, 6, 25, false);
         this.addEnemy("Wolf", 2, 8, 12, 1, 1, 6, 0, false);
         this.addEnemy("Vampire", 8, 8, 17, 4, 1, 6, 60, false);
