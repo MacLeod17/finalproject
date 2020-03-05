@@ -142,6 +142,6 @@ public class Game {
     }
 
     public String mapKey() {
-        return "F: Forest, P: Plains, M: Mountains, H: Hills, T: Town, L: Lake, D: Desert, X: Current Location, _: Unexplored";
+        return "F: Forest, M: Mountains, H: Hills, T: Town, L: Lake, D: Desert, X: Current Location, _: Unexplored";
     }
 }

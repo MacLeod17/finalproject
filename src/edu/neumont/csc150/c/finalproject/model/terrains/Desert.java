@@ -19,7 +19,7 @@ public class Desert extends Terrain {
         this.addEnemy("Cactus Man", 6, 8, 21, 3, 4, 4, 20, false);
         this.addEnemy("Pharaoh Corey", 8, 10, 25, 4, 4, 4, 100, true);
         this.addEnemy("Noah the Golem", 9, 10, 24, 3, 3, 6, 55, false);
-        this.addEnemy("Mind Flayer Garrick", 4, 10, 26, 4, 3, 10, 66, false);
+        this.addEnemy("Mind Flayer Garrick", 7, 10, 26, 4, 3, 10, 66, false);
 
     }
 }

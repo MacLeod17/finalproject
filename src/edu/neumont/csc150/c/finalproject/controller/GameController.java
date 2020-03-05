@@ -67,6 +67,7 @@ public class GameController {
                     ui.displayError(String.format("Special attacks have not yet been implemented. While %s does nothing, the %s attacks",
                             player.getName(), enemy.getName()));
                     ui.readString("Press enter key to continue combat", 0);
+                    break;
                 case DRINK_POTION:
                     try {
                         player.removePotion();
