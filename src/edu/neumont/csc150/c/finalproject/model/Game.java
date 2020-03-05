@@ -38,26 +38,27 @@ public class Game {
         return map;
     }
 
-    public void initialSetGameMap() {
+    public void initializeGameMap() {
         for (int row = 0; row < MAP_SIZE; row++) {
             for (int col = 0; col < MAP_SIZE; col++) {
                 gameMap[row][col] = '_';
             }
         }
         setGameMap();
-        initializeTowns();
+        for (int i=0; i < TOWN_COUNT; i++) {
+            initializeTowns();
+        }
     }
 
+    /** The if-else ensures that the correct number of towns is generated every time */
     private void initializeTowns() {
-        for (int i=0; i < TOWN_COUNT; i++) {
-            int townRow = gen.nextInt(MAP_SIZE);
-            int townCol = gen.nextInt(MAP_SIZE);
-            if (gameMap[townRow][townCol] == '_') {
-                gameMap[townRow][townCol] = 'T';
-            }
-            else {
-                initializeTowns();
-            }
+        int townRow = gen.nextInt(MAP_SIZE);
+        int townCol = gen.nextInt(MAP_SIZE);
+        if (gameMap[townRow][townCol] == '_') {
+            gameMap[townRow][townCol] = 'T';
+        }
+        else {
+            initializeTowns();
         }
     }
 
@@ -68,13 +69,15 @@ public class Game {
         }
     }
 
+    /** userMap=gameMap doesn't save two maps, which is what we want; it just has two variables pointing to the same data.
+     * saving two maps instead of one allows the user to see their current location without overwriting the terrain type */
     public void setUserMap() {
         for (int row = 0; row < MAP_SIZE; row++) {
             for (int col = 0; col < MAP_SIZE; col++) {
                 userMap[row][col] = gameMap[row][col];
             }
         }
-        userMap[currentRow][currentCol] = 'C';
+        userMap[currentRow][currentCol] = 'X';
     }
 
     public void moveNorth() {
@@ -128,11 +131,15 @@ public class Game {
 
     public Enemy checkForEncounter() {
         int encounterValue = gen.nextInt(100) + 1;
-        if (encounterValue < 20) {
+        if (encounterValue < 50) {
             return this.getTerrain().getEnemies().getCreature();
         }
         else {
             return null;
         }
+    }
+
+    public String mapKey() {
+        return "F: Forest, P: Plains, M: Mountains, H: Hills, T: Town, X: Current Location, _: Unexplored";
     }
 }

@@ -10,9 +10,14 @@ public class Wizard extends Player {
     }
 
     public void raiseLevel() {
-        this.raiseLevel(roll(1, 6));
+        super.raiseLevel(roll(1, 6));
         if (this.getLevel() % 2 == 0) {
-            this.raiseHitBonus();
+            super.raiseHitBonus();
         }
+    }
+
+    @Override
+    public void raiseArmorClass() {
+        super.raiseArmorClass(150, 2);
     }
 }

@@ -14,6 +14,7 @@ public class GameUI extends GeneralUI {
     public enum BattleMenuItem {
         FLEE,
         ATTACK,
+        SPECIAL_ATTACK,
         DRINK_POTION
     }
 
@@ -24,7 +25,7 @@ public class GameUI extends GeneralUI {
     public BattleMenuItem promptBattleMenuSelection() throws IOException {
         String townMenuString = buildBattleMenuDisplay();
         displayMessage(townMenuString);
-        int sel = readInt(0, 4);
+        int sel = readInt(0, 3);
         return BattleMenuItem.values()[sel];
     }
 
@@ -32,8 +33,9 @@ public class GameUI extends GeneralUI {
         return String.format("To Battle!\r\n" +
                 " 1 - %s\r\n" +
                 " 2 - %s\r\n" +
+                " 3 - %s\r\n" +
                 " 0 - %s\r\n",
-                BattleMenuItem.ATTACK, BattleMenuItem.DRINK_POTION, BattleMenuItem.FLEE);
+                BattleMenuItem.ATTACK, BattleMenuItem.SPECIAL_ATTACK, BattleMenuItem.DRINK_POTION, BattleMenuItem.FLEE);
     }
 
     public GameUI.TownMenuItem promptTownMenuSelection() throws IOException {

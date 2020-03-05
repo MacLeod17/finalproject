@@ -10,7 +10,12 @@ public class Fighter extends Player {
     }
 
     public void raiseLevel() {
-        this.raiseLevel(roll(1, 12));
-        this.raiseHitBonus();
+        super.raiseLevel(roll(1, 12));
+        super.raiseHitBonus();
+    }
+
+    @Override
+    public void raiseArmorClass() {
+        super.raiseArmorClass(150, 4);
     }
 }

@@ -165,7 +165,7 @@ public abstract class Character {
         return damage;
     }
 
-    public Boolean checkForDeath() {
+    public boolean checkForDeath() {
         if(this.currentHealth <= 0) {
             return true;
         }

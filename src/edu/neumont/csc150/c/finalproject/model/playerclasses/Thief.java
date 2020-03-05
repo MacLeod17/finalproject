@@ -10,9 +10,14 @@ public class Thief extends Player {
     }
 
     public void raiseLevel() {
-        this.raiseLevel(roll(1, 8));
+        super.raiseLevel(roll(1, 8));
         if (!(this.getLevel() % 3 == 1)) {
-            this.raiseHitBonus();
+            super.raiseHitBonus();
         }
+    }
+
+    @Override
+    public void raiseArmorClass() {
+        super.raiseArmorClass(150, 2);
     }
 }

@@ -11,9 +11,14 @@ public class Cleric extends Player {
     }
 
     public void raiseLevel() {
-        this.raiseLevel(roll(1, 10));
+        super.raiseLevel(roll(1, 10));
         if (this.getLevel() % 4 == 1) {
-            this.raiseHitBonus();
+            super.raiseHitBonus();
         }
+    }
+
+    @Override
+    public void raiseArmorClass() {
+        super.raiseArmorClass(150, 3);
     }
 }
