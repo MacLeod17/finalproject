@@ -257,13 +257,15 @@ public abstract class Player extends Character {
         this.setTotalHealth(this.getTotalHealth() + newHealth);
     }
 
-    public void healDamage(int heal) {
+    public void potionHeal(int heal) {
         this.removePotion();
         this.setCurrentHealth(this.getCurrentHealth() + heal);
         if(this.getCurrentHealth() > this.getTotalHealth()) {
             this.setCurrentHealth(this.getTotalHealth());
         }
     }
+
+    public abstract void raiseArmorClass();
 
     /** armorIncrease accounts for the fact that different classes wear different armors */
     public void raiseArmorClass(int cost, int armorIncrease) {

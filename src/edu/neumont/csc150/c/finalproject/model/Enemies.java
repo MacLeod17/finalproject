@@ -13,7 +13,7 @@ public class Enemies {
     }
 
     public void addCreature(String name, int healthDice, int healthSides, int armorClass, int damageMod, int attackDice, int attackSides, int gold, boolean despicableAct) {
-        enemies.add(new Enemy(name, healthDice, healthSides, armorClass, damageMod, attackDice, attackSides, gen.nextInt(gold + 1), despicableAct));
+        enemies.add(new Enemy(name, healthDice, healthSides, armorClass, damageMod, attackDice, attackSides, gold, despicableAct));
     }
 
     public Enemy getCreature() {

@@ -1,9 +1,14 @@
 package edu.neumont.csc150.c.finalproject.model;
 
+import java.util.Random;
+
 public class Enemy extends Character {
     private int gold;
     private int expValue;
+    private int healthDice;
+    private int healthSides;
     private boolean despicableAct;
+    private Random gen = new Random();
 
     public Enemy() {
 
@@ -13,7 +18,9 @@ public class Enemy extends Character {
         this.setName(name);
         /** Two different enemies of the same type can have different total health
          (Some individuals will be tougher than others of the same type) */
-        this.setTotalHealth(this.roll(healthDice, healthSides));
+        this.setHealthDice(healthDice);
+        this.setHealthSides(healthSides);
+        this.setTotalHealth(healthDice, healthSides);
         this.setCurrentHealth(this.getTotalHealth());
         this.setArmorClass(armorClass);
         this.setDamageMod(damageMod);
@@ -33,11 +40,25 @@ public class Enemy extends Character {
     /** If one goblin rolls low on hit points, he will be worth less experience than one who rolls high because
      * totalHealth can severely affect difficulty of the battle */
     private void setExpValue() {
-        this.expValue = this.getTotalHealth() * 10;
+        this.expValue = this.getTotalHealth() * 20;
+    }
+
+    public void resetEnemy() {
+        this.setTotalHealth(this.healthDice, this.healthSides);
+        this.setCurrentHealth(this.getTotalHealth());
+        this.setExpValue();
+    }
+
+    private void setHealthDice(int healthDice) {
+        this.healthDice = healthDice;
+    }
+
+    private void setHealthSides(int healthSides) {
+        this.healthSides = healthSides;
     }
 
     public int getGold() {
-        return this.gold;
+        return gen.nextInt(this.gold + 1);
     }
 
     public void setGold(int gold) {

@@ -86,7 +86,7 @@ public class MainMenuController {
         File folder = new File(characterFolder);
         File[] files = folder.listFiles();
         for (File file : files) {
-            if (fileName.equals(file.getName())) {
+            if (fileName.toLowerCase().equals(file.getName().toLowerCase())) {
                 BufferedReader inFile = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
                 player = determineClass(file.getName());
                 player.deserialize(inFile.readLine().trim());
@@ -99,16 +99,14 @@ public class MainMenuController {
 
     /** Search by range of levels; shows level, name, charClass, and gender of search results */
     private void searchCharacters() throws IOException {
-        String clazz = ui.readString("Enter your chosen class", 1);
+        String clazz = ui.readString("Enter your chosen class", 1).toLowerCase();
         List<Player> searchResults = new ArrayList<>();
 
         File folder = new File(characterFolder);
         File[] files = folder.listFiles();
         for (File file : files) {
-            String fileName = file.getName();
-            String[] fileNamePieces = fileName.split("_");
-            String fileClass = fileNamePieces[0];
-            if (clazz.equals(fileClass)) {
+            String fileName = file.getName().toLowerCase();
+            if (fileName.contains(clazz)) {
                 Player player = loadPlayer(file.getAbsolutePath());
                 searchResults.add(player);
             }
