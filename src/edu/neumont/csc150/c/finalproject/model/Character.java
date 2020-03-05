@@ -152,11 +152,11 @@ public abstract class Character {
             setHitType("Natch 1! Critical Miss!");
         }
         else if (rawRoll == 20) {
-            damage = (this.attackDice * this.attackSides) * damageMultiplier;
+            damage = ((this.attackDice * this.attackSides) + this.damageMod) * damageMultiplier;
             setHitType(String.format("Natch 20! Critical Hit! %d damage!", damage));
         }
         else if (roll >= enemyArmorClass) {
-            damage = roll(this.attackDice, this.attackSides) * damageMultiplier;
+            damage = (roll(this.attackDice, this.attackSides) + this.damageMod)* damageMultiplier;
             setHitType(String.format("Roll of %d, Hit! %d damage!", roll, damage));
         }
         else {

@@ -120,26 +120,26 @@ public class GameController {
             player.onPassHour();
             return false;
         }
-        if (action.contains("north") || action.contains("up")) {
+        else if (action.contains("north") || action.contains("up")) {
             moveNorth();
             player.onPassHour();
             return false;
         }
-        if (action.contains("south") || action.contains("down")) {
+        else if (action.contains("south") || action.contains("down")) {
             moveSouth();
             player.onPassHour();
             return false;
         }
-        if (action.contains("west") || action.contains("left")) {
+        else if (action.contains("west") || action.contains("left")) {
             moveWest();
             player.onPassHour();
             return false;
         }
-        if (action.contains("save")) {
+        else if (action.contains("save")) {
             saveGame();
             return false;
         }
-        if (action.contains("town") || action.contains("shop") || action.contains("equipment")) {
+        else if (action.contains("town") || action.contains("shop") || action.contains("equipment")) {
             promptTownMenu();
             player.onPassHour();
             return false;

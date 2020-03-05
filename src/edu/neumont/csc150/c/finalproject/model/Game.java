@@ -116,12 +116,14 @@ public class Game {
         switch (gameMap[currentRow][currentCol]) {
             case 'F':
                 return terrains.getTerrain(0);
-            case 'P':
+            case 'D':
                 return terrains.getTerrain(1);
             case 'H':
                 return terrains.getTerrain(2);
             case 'M':
                 return terrains.getTerrain(3);
+            case 'L':
+                return terrains.getTerrain(4);
             case 'T':
                 return new Town();
             default:
@@ -140,6 +142,6 @@ public class Game {
     }
 
     public String mapKey() {
-        return "F: Forest, P: Plains, M: Mountains, H: Hills, T: Town, X: Current Location, _: Unexplored";
+        return "F: Forest, P: Plains, M: Mountains, H: Hills, T: Town, L: Lake, D: Desert, X: Current Location, _: Unexplored";
     }
 }
