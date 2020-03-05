@@ -51,6 +51,6 @@ public class Forest extends Terrain {
         this.addEnemy("Mimic", 8, 8, 17, 3, 3, 4, 45, false);
         this.addEnemy("Wild Connor", 5, 8, 20, 3, 3, 6, 50, false);
         this.addEnemy("Minotaur", 7, 8, 21, 4, 1, 10, 30, false);
-        this.addEnemy("Beholder", 9, 8, 23, 2, 2, 6, 15, false);
+      //  this.addEnemy("Beholder", 9, 8, 23, 2, 2, 6, 15, false);
     }
 }

@@ -21,5 +21,7 @@ public class Town extends Terrain {
         this.addEnemy("Nega-Cox", 9, 10, 25, 6, 4, 6, 51, false);
         this.addEnemy("Nega-Fermin", 5, 10, 20, 3, 2, 10, 35, false);
         this.addEnemy("Nega-Elijah", 4, 12, 21, 4, 2, 8, 35, false);
+        this.addEnemy("Mimic", 8, 8, 17, 3, 3, 4, 45, false);
+
     }
 }

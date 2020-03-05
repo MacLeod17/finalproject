@@ -22,6 +22,9 @@ public class Mountains extends Terrain {
         this.addEnemy("Giant Spider", 4, 8, 15, 5, 2, 8, 20, false);
         this.addEnemy("Red Dragon", 10, 10, 27, 10, 3, 10, 100, false);
         this.addEnemy("Gold Dragon", 11, 10, 29, 10, 3, 12, 115, false);
+        this.addEnemy("Earth Elemental", 10, 8, 21, 4, 4, 6, 15, false);
+        this.addEnemy("Wild Connor", 5, 8, 20, 3, 3, 6, 50, false);
+        this.addEnemy("Minotaur", 7, 8, 21, 4, 1, 10, 30, false);
 
     }
 }
