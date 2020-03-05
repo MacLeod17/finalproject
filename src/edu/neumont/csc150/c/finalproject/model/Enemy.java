@@ -24,7 +24,7 @@ public class Enemy extends Character {
         this.setCurrentHealth(this.getTotalHealth());
         this.setArmorClass(armorClass);
         this.setDamageMod(damageMod);
-        this.setHitBonus(healthDice - 3);
+        this.setHitBonus(healthDice + 2);
         /** Bigger Bads attack better */
         this.setAttackDice(attackDice);
         this.setAttackSides(attackSides);
