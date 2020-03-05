@@ -11,5 +11,17 @@ public class Mountains extends Terrain {
         this.addEnemy("Orc", 2, 8, 12, 1, 1, 8, 20, false);
         this.addEnemy("Zombie", 2, 6, 11, 1, 1, 8, 2, false);
         this.addEnemy("Skeleton", 1, 10, 14, 2, 1, 10, 0, false);
+        this.addEnemy("Harpy", 2, 12, 15, 2, 1, 6, 15, false);
+        this.addEnemy("Wolverine", 3, 8, 12, 2, 1, 6, 5, false);
+        this.addEnemy("Wolf", 2, 8, 12, 1, 1, 6, 0, false);
+        this.addEnemy("Stray Traveler", 1, 6, 10, 0, 1, 6, 20, true);
+        this.addEnemy("Wandering hero", 5, 12, 18, 5, 2, 6, 50, true);
+        this.addEnemy("Rival Adventurer", 4, 10, 16, 3, 1, 10, 30, false);
+        this.addEnemy("Cave Bear", 8, 8, 16, 4, 2, 8, 5, false);
+        this.addEnemy("Swarm of Bats", 2, 6, 17, 2, 2, 6, 6, false);
+        this.addEnemy("Giant Spider", 4, 8, 15, 5, 2, 8, 20, false);
+        this.addEnemy("Red Dragon", 10, 10, 27, 10, 3, 10, 100, false);
+        this.addEnemy("Gold Dragon", 11, 10, 29, 10, 3, 12, 115, false);
+
     }
 }
