@@ -18,7 +18,5 @@ public class Lake extends Terrain {
         this.addEnemy("Goblin",2, 6, 10, 0, 1, 6, 30, false);
         this.addEnemy("Wandering hero", 5, 12, 18, 5, 2, 6, 50, true);
         this.addEnemy("Rival Adventurer", 4, 10, 16, 3, 1, 10, 30, false);
-
-
     }
 }
