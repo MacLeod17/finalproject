@@ -3,7 +3,7 @@ package edu.neumont.csc150.c.finalproject.model.terrains;
 public class Hills extends Terrain {
 
     public Hills() {
-        this.setIntroString("You find yourself in the rocky hills. The land is rough");
+        this.setIntroString("You find yourself overlooking rolling green hills, lush with flora and fauna.");
         this.setName("Hills");
         this.setPlaceMarker('H');
 

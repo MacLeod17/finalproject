@@ -11,9 +11,10 @@ public class Terrains {
 
     public Terrains() {
         terrains.add(new Forest());
-        terrains.add(new Plains());
+        terrains.add(new Desert());
         terrains.add(new Hills());
         terrains.add(new Mountains());
+        terrains.add(new Lake());
     }
 
     public Terrain getTerrain() {
