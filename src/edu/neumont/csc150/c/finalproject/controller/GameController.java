@@ -18,6 +18,8 @@ public class GameController {
     private Player player;
     private boolean playerDead = false;
     private Enemy enemy;
+    private int despicableActTimer = 0;
+    private boolean shopsDisabled = false;
 
 
     public void run(Player player) throws IOException {
@@ -26,6 +28,8 @@ public class GameController {
 
         game.initializeGameMap();
         game.setUserMap();
+        viewActions();
+        ui.readString("Press the enter key to continue", 0);
         while (!exitRequested) {
             if (enemy != null) {
                 onEnemyEncounter();
@@ -83,6 +87,8 @@ public class GameController {
                 if (enemy.isDespicableAct()) {
                     ui.displayError(String.format("Oh, the horror! %s has committed a despicable act!", player.getName()));
                     ui.displayError(String.format("%s should be ashamed of %s!", player.getName(), player.getOtherPronoun()));
+                    despicableActTimer = 24;
+                    shopsDisabled = true;
                 }
                 else {
                     ui.displayMessage(String.format("%s has defeated the %s, looting %d gold and earning %d experience!",
@@ -160,10 +166,31 @@ public class GameController {
             potionHeal();
             return false;
         }
+        else if (action.contains("action") || action.contains("allowed")) {
+            viewActions();
+            return false;
+        }
         else {
             ui.displayError("I'm sorry, I can't let you do that. Do something else, my patience is wearing thin");
             return false;
         }
+    }
+
+    private void viewActions() {
+        String actions =
+                        "These are the allowed actions. To use any of these actions, type in a key word of the action and press enter:" +
+                        "\r\n Move North" +
+                        "\r\n Move South" +
+                        "\r\n Move East" +
+                        "\r\n Move West" +
+                        "\r\n Drink Potion" +
+                        "\r\n View Character Stats" +
+                        "\r\n Rest/Wait" +
+                        "\r\n Save Game" +
+                        "\r\n Exit Game" +
+                        "\r\n Enter Town/Shops" +
+                        "\r\nDisclaimer: Not all of these actions are usable 100% of the time";
+        ui.displayMessage(actions);
     }
 
     private void moveNorth() {
@@ -206,53 +233,72 @@ public class GameController {
                     exitRequested = true;
                     break;
                 case REST:
-                    safeRest();
-                    break;
-                case BUY_ARMOR:
-                    if (player instanceof Wizard) {
-                        ui.displayMessage("A better Ring of Protection costs 150 gold");
-                        willBuy = ui.readBoolean("Are you sure you want to buy a better Ring of Protection?", "Yes", "No");
+                    if (!shopsDisabled) {
+                        safeRest();
                     }
                     else {
-                        ui.displayMessage("Better armor costs 150 gold");
-                        willBuy = ui.readBoolean("Are you sure you want to buy better armor?", "Yes", "No");
+                        ui.displayError(String.format("%s has committed a despicable act, and will not be housed in this inn", player.getName()));
                     }
-                    if (willBuy) {
-                        try {
-                            player.raiseArmorClass();
-                        } catch (IllegalArgumentException ex1) {
-                            if (player instanceof Wizard) {
-                                ui.displayError(String.format("%s does not have enough gold to buy a better Ring of Protection!", player.getName()));
-                            } else {
-                                ui.displayError(String.format("%s does not have enough gold to buy more armor!", player.getName()));
-                            }
-                        } catch (ArithmeticException ex2) {
-                            ui.displayError(String.format("%s's Armor Class cannot go any higher!", player.getName()));
+                    break;
+                case BUY_ARMOR:
+                    if (!shopsDisabled) {
+                        if (player instanceof Wizard) {
+                            ui.displayMessage("A better Ring of Protection costs 150 gold");
+                            willBuy = ui.readBoolean("Are you sure you want to buy a better Ring of Protection?", "Yes", "No");
+                        } else {
+                            ui.displayMessage("Better armor costs 150 gold");
+                            willBuy = ui.readBoolean("Are you sure you want to buy better armor?", "Yes", "No");
                         }
+                        if (willBuy) {
+                            try {
+                                player.raiseArmorClass();
+                            } catch (IllegalArgumentException ex1) {
+                                if (player instanceof Wizard) {
+                                    ui.displayError(String.format("%s does not have enough gold to buy a better Ring of Protection!", player.getName()));
+                                } else {
+                                    ui.displayError(String.format("%s does not have enough gold to buy more armor!", player.getName()));
+                                }
+                            } catch (ArithmeticException ex2) {
+                                ui.displayError(String.format("%s's Armor Class cannot go any higher!", player.getName()));
+                            }
+                        }
+                    }
+                    else {
+                        ui.displayError(String.format("%s has committed a despicable act, and will not be served in this town", player.getName()));
                     }
                     break;
                 case BUY_POTION:
-                    ui.displayMessage("This Healing Potion costs 50 gold");
-                    willBuy = ui.readBoolean("Are you sure you want to buy this Healing Potion?", "Yes", "No");
-                    if (willBuy) {
-                        try {
-                            player.addPotion(50);
-                        } catch (IllegalArgumentException ex1) {
-                            ui.displayError(String.format("%s does not have enough gold to buy a healing potion!", player.getName()));
+                    if (!shopsDisabled) {
+                        ui.displayMessage("This Healing Potion costs 50 gold");
+                        willBuy = ui.readBoolean("Are you sure you want to buy this Healing Potion?", "Yes", "No");
+                        if (willBuy) {
+                            try {
+                                player.addPotion(50);
+                            } catch (IllegalArgumentException ex1) {
+                                ui.displayError(String.format("%s does not have enough gold to buy a healing potion!", player.getName()));
+                            }
                         }
+                    }
+                    else {
+                        ui.displayError(String.format("%s has committed a despicable act, and will not be served in this town", player.getName()));
                     }
                     break;
                 case BUY_RING:
-                    ui.displayMessage("The Ring of Regeneration costs 500 gold");
-                    willBuy = ui.readBoolean("Are you sure you want to buy this Ring of Regeneration?", "Yes", "No");
-                    if (willBuy) {
-                        try {
-                            player.onBuyRegenerationRing(500);
-                        } catch (IllegalArgumentException ex1) {
-                            ui.displayError(String.format("%s does not have enough gold to buy this ring!", player.getName()));
-                        } catch (RuntimeException ex2) {
-                            ui.displayError(String.format("%s can only own one Ring of Regeneration!", player.getName()));
+                    if (!shopsDisabled) {
+                        ui.displayMessage("The Ring of Regeneration costs 500 gold");
+                        willBuy = ui.readBoolean("Are you sure you want to buy this Ring of Regeneration?", "Yes", "No");
+                        if (willBuy) {
+                            try {
+                                player.onBuyRegenerationRing(500);
+                            } catch (IllegalArgumentException ex1) {
+                                ui.displayError(String.format("%s does not have enough gold to buy this ring!", player.getName()));
+                            } catch (RuntimeException ex2) {
+                                ui.displayError(String.format("%s can only own one Ring of Regeneration!", player.getName()));
+                            }
                         }
+                    }
+                    else {
+                        ui.displayError(String.format("%s has committed a despicable act, and will not be served in this town", player.getName()));
                     }
                     break;
             }
@@ -266,6 +312,7 @@ public class GameController {
             return;
         }
         player.onWait();
+        incrementDespicableActTimer();
     }
 
     private void viewCharacter() throws IOException {
@@ -291,5 +338,15 @@ public class GameController {
         game.setGameMap();
         game.setUserMap();
         enemy = game.checkForEncounter();
+        incrementDespicableActTimer();
+    }
+
+    private void incrementDespicableActTimer() {
+        if (despicableActTimer > 0) {
+            despicableActTimer -= 1;
+        }
+        if (despicableActTimer == 0) {
+            shopsDisabled = false;
+        }
     }
 }

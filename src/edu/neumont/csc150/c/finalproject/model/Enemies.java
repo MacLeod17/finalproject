@@ -9,7 +9,6 @@ public class Enemies {
     private Random gen = new Random();
 
     public Enemies() {
-//        enemies.add(new Enemy("Killer Rabbit", 60, 20, false));
     }
 
     public void addCreature(String name, int healthDice, int healthSides, int armorClass, int damageMod, int attackDice, int attackSides, int gold, boolean despicableAct) {

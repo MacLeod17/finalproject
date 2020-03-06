@@ -10,8 +10,8 @@ public class Game {
     private Terrains terrains = new Terrains();
     private Random gen = new Random();
 
-    private final int TOWN_COUNT = 2;
-    private final int MAP_SIZE = 10;
+    private final int TOWN_COUNT = 6;
+    private final int MAP_SIZE = 25;
 
     /** What the game checks */
     private char[][] gameMap = new char[MAP_SIZE][MAP_SIZE];

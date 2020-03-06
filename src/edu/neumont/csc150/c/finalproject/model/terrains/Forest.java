@@ -30,5 +30,6 @@ public class Forest extends Terrain {
         this.addEnemy("Gelatinous Cube", 4, 8, 12, 1, 2, 4, 10, false);
         this.addEnemy("Green Slime", 2, 8, 12, 2, 1, 6, 5, false);
         this.addEnemy("Mimic", 8, 8, 17, 3, 3, 4, 45, false);
+        this.addEnemy("Killer Rabbit", 3, 10, 30, 4, 2, 10, 10, false);
     }
 }
