@@ -1,7 +1,6 @@
 package edu.neumont.csc150.c.finalproject.view;
 
 import edu.neumont.csc150.c.finalproject.model.Question;
-import edu.neumont.csc150.c.finalproject.model.Questions;
 
 import java.io.IOException;
 
@@ -14,15 +13,12 @@ public class QuestionsUI extends GeneralUI {
         D
     }
 
-    private Questions questions = new Questions();
-
     public QuestionsUI() {
 
     }
 
-    public QuestionsUI.Answers promptMenuSelection(int questionsIndex) throws IOException {
-        Question question = questions.getQuestions().get(questionsIndex);
-        String mainMenuString = buildQuestionDisplay(question);
+    public QuestionsUI.Answers promptMenuSelection(Question q) throws IOException {
+        String mainMenuString = buildQuestionDisplay(q);
         displayMessage(mainMenuString);
         int sel = readInt(0, 4);
         return QuestionsUI.Answers.values()[sel];

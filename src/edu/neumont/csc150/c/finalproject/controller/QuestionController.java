@@ -1,5 +1,6 @@
 package edu.neumont.csc150.c.finalproject.controller;
 
+import edu.neumont.csc150.c.finalproject.model.Questions;
 import edu.neumont.csc150.c.finalproject.model.playerclasses.*;
 import edu.neumont.csc150.c.finalproject.view.QuestionsUI;
 
@@ -11,6 +12,8 @@ import java.util.Random;
 public class QuestionController {
 
     QuestionsUI ui = new QuestionsUI();
+    private Questions questions = new Questions();
+
     private int fighterAnswerCounter;
     private int wizardAnswerCounter;
     private int clericAnswerCounter;
@@ -20,7 +23,7 @@ public class QuestionController {
         int questionCounter = 0;
         boolean exitRequested = false;
         while (!exitRequested && questionCounter < 10) {
-            QuestionsUI.Answers selection = ui.promptMenuSelection(questionCounter);
+            QuestionsUI.Answers selection = ui.promptMenuSelection(questions.getQuestions().get(questionCounter));
             switch (selection) {
                 case EXIT:
                     exitRequested = true;
@@ -41,10 +44,10 @@ public class QuestionController {
             questionCounter++;
         }
         String charClass = determineCharacterClass();
-//        ui.displayMessage(String.format("Fighter: %d", fighterAnswerCounter));
-//        ui.displayMessage(String.format("Wizard: %d", wizardAnswerCounter));
-//        ui.displayMessage(String.format("Cleric: %d", clericAnswerCounter));
-//        ui.displayMessage(String.format("Thief: %d", thiefAnswerCounter));
+        ui.displayMessage(String.format("Fighter: %d", fighterAnswerCounter));
+        ui.displayMessage(String.format("Wizard: %d", wizardAnswerCounter));
+        ui.displayMessage(String.format("Cleric: %d", clericAnswerCounter));
+        ui.displayMessage(String.format("Thief: %d", thiefAnswerCounter));
         ui.displayMessage(String.format("Your Class: %s", charClass));
 
         return createPlayer(charClass);
